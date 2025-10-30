@@ -45,6 +45,6 @@ class DiaryEntry{
     public static void main(String[] args){
         DiaryEntry entry1 = new DiaryEntry("Hei :)", "I dag så jeg på Vaiana2 med Marion og Hanne i fellesområdet. Samtidig har jeg jobbet med mappevurderingen i programmering 1. Senere i dag skal jeg vaske klær og se på The Witcher mer kollektivet.");
         System.out.println(entry1);
-        System.out.println("Dette er en test");
+        System.out.println("Dette er en test2");
     }
 }
