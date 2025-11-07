@@ -1,4 +1,4 @@
-package Mappevurdering_hovedprosjekt;
+package mappe_2025_Solveignatvig;
 
 public class DiaryMain {
     private DiaryUI UI;

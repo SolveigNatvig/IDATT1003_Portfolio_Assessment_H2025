@@ -1,4 +1,4 @@
-package Mappevurdering_hovedprosjekt;
+package mappe_2025_SolveigNatvig;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
