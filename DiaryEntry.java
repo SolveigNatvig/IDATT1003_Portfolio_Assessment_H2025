@@ -1,4 +1,4 @@
-package mappe_2025_SolveigNatvig;
+package mappe_2025_solveignatvig;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,6 +43,7 @@ class DiaryEntry{
     public void setContent(String newContent){ // Kanskje fikse sånn at man kan legge til innhold?
         this.content = newContent;
     }
+
 
     // Sørger for at ting blir returnert på en spessiell måte når man printer et objekt av klassen
     @Override 

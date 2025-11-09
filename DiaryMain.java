@@ -1,4 +1,6 @@
-package mappe_2025_Solveignatvig;
+package mappe_2025_solveignatvig;
+
+import java.util.Scanner;
 
 public class DiaryMain {
     private DiaryUI UI;
@@ -8,8 +10,9 @@ public class DiaryMain {
     }
 
     public static void main(String[] args) {
+        Scanner scan = new java.util.Scanner(System.in);
         DiaryMain diary1 = new DiaryMain();
-        diary1.UI.start();
+        diary1.UI.start(scan);
     }
 
 }
