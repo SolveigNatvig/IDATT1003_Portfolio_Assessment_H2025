@@ -12,11 +12,15 @@ import com.google.gson.reflect.TypeToken;
 
 public class DiaryUI {
     private ArrayList<DiaryEntry> diaryEntries;
+    private ArrayList<Author> authorList; // Trenger jeg denne?
+    private AuthorRegister authorRegister;
     private final Gson gson;
 
     // Constructor 
     public DiaryUI() {
         this.diaryEntries = new ArrayList<>();
+        this.authorList = new ArrayList<>();
+        this.authorRegister = new AuthorRegister();
 
         // Sets up Gson to use DiaryEntryTypeAdapter
         this.gson = new GsonBuilder().registerTypeAdapter(DiaryEntry.class, new DiaryEntryTypeAdapter()).setPrettyPrinting().create();
@@ -45,8 +49,9 @@ public class DiaryUI {
         System.out.println("Title (date is added automaticly): ");
         String title = scan.nextLine();
 
-        System.out.println("Author: ");
-        String author = scan.nextLine();
+        System.out.println("Author: "); // This one doesnt work because Author isnt a string anymore
+        String name = scan.nextLine();
+        Author author = this.authorRegister.getAuthorByName(name);
 
         System.out.println("Content: ");
         String content = scan.nextLine();
@@ -69,6 +74,13 @@ public class DiaryUI {
     // Delete entry by index
     private void deleteEntry(int index) {
         this.diaryEntries.remove(index);
+    }
+
+    private void entrySearch(String searchWord){
+        for (DiaryEntry entry: this.diaryEntries){
+            
+        }
+
     }
 
     public void start(Scanner scan) {

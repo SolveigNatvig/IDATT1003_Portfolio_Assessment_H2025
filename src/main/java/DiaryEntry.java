@@ -3,18 +3,21 @@ import java.time.format.DateTimeFormatter;
 
 class DiaryEntry {
     private String title;
-    private String author;
+    private Author author;
     private String content;
     private final LocalDateTime date;
+    private LocalDateTime lastEdited;
 
-    public DiaryEntry(String title, String author, String content) {
+    public DiaryEntry(String title, Author author, String content) {
         this.title = title;
         this.author = author;
         this.content = content;
         this.date = LocalDateTime.now();
+        this.lastEdited = LocalDateTime.now(); // What do I think about this one? 
     }
 
-    public DiaryEntry(String title, String author, String content, LocalDateTime date) {
+    // Hvorfor denne !!!
+    public DiaryEntry(String title, Author author, String content, LocalDateTime date) {
         this.title = title;
         this.author = author;
         this.content = content;
@@ -25,7 +28,7 @@ class DiaryEntry {
         return this.title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return this.author;
     }
 
@@ -37,12 +40,21 @@ class DiaryEntry {
         return this.date;
     }
 
+    public LocalDateTime getLastEdited() {
+        return this.lastEdited;
+    }
+
     public void setTitle(String newTitle) {
         this.title = newTitle;
     }
 
     public void setContent(String newContent) {
         this.content = newContent;
+    }
+
+    // This method is supposed to be used for keeping track with when an entry was last revised
+    public void setLastEdited() {
+        this.lastEdited = LocalDateTime.now();
     }
 
     @Override 

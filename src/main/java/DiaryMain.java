@@ -11,6 +11,7 @@ public class DiaryMain {
         Scanner scan = new Scanner(System.in);
         DiaryMain diary1 = new DiaryMain();
         diary1.UI.start(scan);
+        // Her skulle init() vært
         scan.close();
     }
 }

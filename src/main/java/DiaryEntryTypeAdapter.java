@@ -12,14 +12,9 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
     // This method writes out each field of a DiaryEntry into a JSON object
     @Override
     public void write(JsonWriter out, DiaryEntry entry) throws IOException {
-        if (entry == null) {
-            out.nullValue();
-            return;
-        }
-        
         out.beginObject();
         out.name("title").value(entry.getTitle());
-        out.name("author").value(entry.getAuthor());
+        out.name("author").value(entry.getAuthor().getName()); // Is this right?
         out.name("content").value(entry.getContent());
         out.name("date").value(entry.getDate().format(formatter));
         out.endObject();
@@ -29,9 +24,10 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
     @Override
     public DiaryEntry read(JsonReader in) throws IOException {
         String title = null;
-        String author = null;
+        Author author = null;
         String content = null;
         LocalDateTime date = null;
+        LocalDateTime lastEdited = null;
 
         in.beginObject();
         while (in.hasNext()) {
@@ -42,7 +38,22 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
                     break;
 
                 case "author":
-                    author = in.nextString();
+                    Author authorObj = new Author(name);
+
+                    in.beginObject(); // start reading the author object
+                    while (in.hasNext()) {
+                        switch (in.nextName()) {
+                            case "name":
+                                authorObj.setName(in.nextString());
+                                break;
+                                
+                            default:
+                                in.skipValue(); // skip unknown fields
+                        }
+                    }
+                    in.endObject(); // finish reading author object
+
+                    author = authorObj;
                     break;
 
                 case "content":
@@ -52,6 +63,10 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
                 case "date":
                     date = LocalDateTime.parse(in.nextString(), formatter);
                     break;
+
+                case "lastEdited":
+                    lastEdited = LocalDateTime.parse(in.nextString(), formatter);
+                    break;
                     
                 default:
                     in.skipValue();
@@ -60,6 +75,6 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
         }
         in.endObject();
 
-        return new DiaryEntry(title, author, content, date);
+        return new DiaryEntry(title, author, content);
     }
 }
