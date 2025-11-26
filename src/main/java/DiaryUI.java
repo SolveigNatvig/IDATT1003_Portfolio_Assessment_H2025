@@ -11,16 +11,18 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class DiaryUI {
-    private ArrayList<DiaryEntry> diaryEntries;
-    private ArrayList<Author> authorList; // Trenger jeg denne?
+    private ArrayList<DiaryEntry> diaryEntries; //trenger jeg denne? Kanskje heller bare ha lista fra diaryRegister?
+    //private ArrayList<Author> authorList; // Trenger jeg denne?
     private AuthorRegister authorRegister;
+    private DiaryEntryRegister diaryEntryRegister;
     private final Gson gson;
 
     // Constructor 
     public DiaryUI() {
         this.diaryEntries = new ArrayList<>();
-        this.authorList = new ArrayList<>();
+        //this.authorList = new ArrayList<>();
         this.authorRegister = new AuthorRegister();
+        this.diaryEntryRegister = new DiaryEntryRegister();
 
         // Sets up Gson to use DiaryEntryTypeAdapter
         this.gson = new GsonBuilder().registerTypeAdapter(DiaryEntry.class, new DiaryEntryTypeAdapter()).setPrettyPrinting().create();
@@ -161,6 +163,7 @@ public class DiaryUI {
 
     // This method reads potential existing entries from "entries.json" and loads them into memory
     private void init() {
+        /* 
         String filepath = "entries.json";
 
         try {
@@ -179,10 +182,14 @@ public class DiaryUI {
         catch (IOException e) {
             System.out.println("Could not read entries.json: " + e.getMessage());
         }
+        */
+       this.diaryEntryRegister.readFromJSON();
+       this.authorRegister.readFromJSON();
     }
 
     // This method converts my ArrayList of entries (diaryEntries) into JSON and saves it to file
     private void save() {
+        /* 
         String filepath = "entries.json";
 
         try (FileWriter writer = new FileWriter(filepath)) {
@@ -193,5 +200,8 @@ public class DiaryUI {
         catch (IOException e) {
             System.out.println("Could not save entries.json: " + e.getMessage());
         }
+        */
+       this.diaryEntryRegister.writeToJSON();
+       this.authorRegister.writeToJSON();
     }
 }
