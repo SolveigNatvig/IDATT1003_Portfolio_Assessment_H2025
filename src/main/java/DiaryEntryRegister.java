@@ -114,5 +114,39 @@ class DiaryEntryRegister {
             System.out.println("Could not save entries.json: " + e.getMessage());
         }
     }
+
+    public void readFromJSON(){
+        String filepath = "entries.json";
+
+        try {
+            if (Files.exists(Paths.get(filepath))) {
+                ArrayList<DiaryEntry> entries = gson.fromJson(
+                    new FileReader(filepath),
+                    new TypeToken<ArrayList<DiaryEntry>>() {}.getType()
+                );
+
+                if (entries != null) {
+                    this.diaryEntries.addAll(entries);
+                }
+            }
+        } 
+        
+        catch (IOException e) {
+            System.out.println("Could not read entries.json: " + e.getMessage());
+        }
+    }
+
+    public void writeToJSON(){
+        String filepath = "entries.json";
+
+        try (FileWriter writer = new FileWriter(filepath)) {
+            gson.toJson(this.diaryEntries, writer);
+            System.out.println("\nDiary saved successfully!");
+        } 
+        
+        catch (IOException e) {
+            System.out.println("Could not save entries.json: " + e.getMessage());
+        }
+    }
 }
 
