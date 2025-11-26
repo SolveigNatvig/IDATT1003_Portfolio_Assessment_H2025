@@ -23,9 +23,11 @@ public class AuthorRegister {
             return false;
         }
     }
+        
 
     // Never run if isAuthor() returns false __________ NOT DONE
-    // If the author dosnt exist, then a new authr is added
+    // If the author dosnt exist, then a new author is added
+    /**
     public Author getAuthorByName(String name){
         Author author = new Author(name);
         
@@ -37,6 +39,27 @@ public class AuthorRegister {
             return author;
         }
     }
+   */
+
+    public Author getAuthorByName(String name) {
+        for (Author author : this.authorList) {
+            if (author.getName().equalsIgnoreCase(name)) {
+                return author;
+            }
+        }
+
+        // Author not found — create a new one
+        Author newAuthor = new Author(name);
+        this.authorList.add(newAuthor);
+        return newAuthor;
+    }
+
+    public void printAuthorList(){
+        for (Author author : this.authorList){
+            System.out.println(String.format("%s : %d", author.getName(), author.getNumberOfEntries()));
+        }
+    }
+
     
 
 

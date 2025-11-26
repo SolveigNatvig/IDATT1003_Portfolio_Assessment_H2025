@@ -8,6 +8,7 @@
  */
 class Author {
     private String name;
+    private int numberOfEntries;
 
     /**
      * Creates a new {@code Author} with the given name.
@@ -22,6 +23,7 @@ class Author {
         else{
             this.name = name;
         }
+        this.numberOfEntries = 0;
     }
 
     /**
@@ -33,6 +35,10 @@ class Author {
         return this.name;
     }
 
+    public int getNumberOfEntries(){
+        return this.numberOfEntries;
+    }
+
     /**
      * Sets a name for the author
      * 
@@ -42,14 +48,9 @@ class Author {
         this.name = name;
     }
 
-
-
-
-
-    // maybe make the author name final?
-    // if not i might get a lot of entries registrerd to ""...
-
-    
+    public void addNumberOfEntries(){
+        this.numberOfEntries += 1;
+    }
 }
 
 
