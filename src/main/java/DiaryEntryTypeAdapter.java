@@ -33,7 +33,14 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
     public void write(JsonWriter out, DiaryEntry entry) throws IOException {
         out.beginObject();
         out.name("title").value(entry.getTitle());
-        out.name("author").value(entry.getAuthor().getName()); // Is this right?
+
+        // Write Author as a JSON object
+        out.name("author");
+        out.beginObject();
+        out.name("name").value(entry.getAuthor().getName());
+        out.endObject();
+
+        //out.name("author").value(entry.getAuthor().getName()); // Is this right?
         out.name("content").value(entry.getContent());
         out.name("date").value(entry.getDate().format(formatter));
         out.endObject();
