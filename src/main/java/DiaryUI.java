@@ -49,9 +49,10 @@ public class DiaryUI {
         System.out.println("Title (date is added automaticly): ");
         String title = scan.nextLine();
 
-        System.out.println("Author: "); // This one doesnt work because Author isnt a string anymore
+        System.out.println("Author: "); 
         String name = scan.nextLine();
         Author author = this.authorRegister.getAuthorByName(name);
+        author.addNumberOfEntries();
 
         System.out.println("Content: ");
         String content = scan.nextLine();
@@ -92,7 +93,8 @@ public class DiaryUI {
             System.out.println("2. Show all entries");
             System.out.println("3. Edit previous entry");
             System.out.println("4. Delete entry");
-            System.out.println("5. Exit");
+            System.out.println("5. Show Authors");
+            System.out.println("6. Exit");
             System.out.println("Choose from the options above");
 
             option = scan.nextInt();
@@ -144,9 +146,14 @@ public class DiaryUI {
                     this.deleteEntry(index);
                     this.save();
                 }
-            } 
+            }
+
+            else if (option == 5){
+                System.out.println("Name : Entries");
+                this.authorRegister.printAuthorList();
+            }
             
-            else if (option == 5) {
+            else if (option == 6) {
                 break;
             }
         }
@@ -188,16 +195,3 @@ public class DiaryUI {
         }
     }
 }
-
-// Add the possibility to write multiple paragraphs within an entry.
-// When an entry is edited it should add "Edited by User, time"
-// Add a way to search. (f.eks all entries that contain the word midninght)
-// Add a way to sort my date. It is sort of sorted already though
-// Add a way to see all entries within the last week
-// Add a way to see all entries by one author
-
-
-// I have to start to use branches
-// Positive and negative tests?
-// I will also have to fully understand the DiaryEntryTypeAdapter.java in order to be able to explain the code and make smart changes. Do I understand this enough to implement it into my project files?
-// Is this a maven setup?
