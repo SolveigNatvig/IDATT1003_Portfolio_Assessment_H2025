@@ -138,6 +138,6 @@ class DiaryEntry {
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         String formattedDate = this.date.format(formatter);
-        return String.format("\n%s, %s\n%s\nby %s\n", this.title, formattedDate, this.content, this.author);
+        return String.format("\n%s, %s\n%s\nby %s\n", this.title, formattedDate, this.content, this.author.getName());
     }
 }
