@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -35,23 +34,6 @@ public class AuthorRegister {
             return false;
         }
     }
-        
-
-    // Never run if isAuthor() returns false __________ NOT DONE
-    // If the author dosnt exist, then a new author is added
-    /**
-    public Author getAuthorByName(String name){
-        Author author = new Author(name);
-        
-        if (this.authorList.indexOf(author) != -1){
-            return this.authorList.get(this.authorList.indexOf(author));
-        }
-        else{
-            this.authorList.add(author);
-            return author;
-        }
-    }
-   */
 
     public Author getAuthorByName(String name) {
         for (Author author : this.authorList) {
@@ -95,7 +77,7 @@ public class AuthorRegister {
     }
 
     public void writeToJSON(){
-        String filepath = "author.json";
+        String filepath = "authors.json";
 
         try (FileWriter writer = new FileWriter(filepath)) {
             gson.toJson(this.authorList, writer);
