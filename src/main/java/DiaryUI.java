@@ -1,48 +1,27 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import java.util.Scanner;
 
 public class DiaryUI {
-    private ArrayList<DiaryEntry> diaryEntries; //trenger jeg denne? Kanskje heller bare ha lista fra diaryRegister?
-    //private ArrayList<Author> authorList; // Trenger jeg denne?
     private AuthorRegister authorRegister;
     private DiaryEntryRegister diaryEntryRegister;
-    private final Gson gson;
 
     // Constructor 
     public DiaryUI() {
-        this.diaryEntries = new ArrayList<>();
-        //this.authorList = new ArrayList<>();
         this.authorRegister = new AuthorRegister();
         this.diaryEntryRegister = new DiaryEntryRegister();
-
-        // Sets up Gson to use DiaryEntryTypeAdapter
-        this.gson = new GsonBuilder().registerTypeAdapter(DiaryEntry.class, new DiaryEntryTypeAdapter()).setPrettyPrinting().create();
         
         // Loads any saved entries from the json file
         init();
     }
 
-    private ArrayList<DiaryEntry> getDiaryEntriesList() {
-        return this.diaryEntries;
-    }
-
     private DiaryEntry getDiaryEntry(int number) {
-        return this.diaryEntries.get(number);
+        return this.diaryEntryRegister.getDiaryEntriesList().get(number);
     }
 
     private void showAllEntries() {
         System.out.println("Dette er innleggene som finnes i dagboken:\n");
-        for (DiaryEntry entries : this.getDiaryEntriesList()) {
-            System.out.println(getDiaryEntriesList().indexOf(entries) + ". " + entries);
+        for (DiaryEntry entries : this.diaryEntryRegister.getDiaryEntriesList()) {
+            System.out.println(this.diaryEntryRegister.getDiaryEntriesList().indexOf(entries) + ". " + entries);
         }
     }
 
@@ -60,27 +39,27 @@ public class DiaryUI {
         String content = scan.nextLine();
 
         DiaryEntry entry = new DiaryEntry(title, author, content);
-        this.diaryEntries.add(entry); // Do I NEED THIS LIST!!?
+        this.diaryEntryRegister.getDiaryEntriesList().add(entry); 
         this.save();
     }
 
     // Change content of a selected entry
     private void editEntryContent(int index, String newContent) {
-        this.diaryEntries.get(index).setContent(newContent);
+        this.diaryEntryRegister.getDiaryEntriesList().get(index).setContent(newContent);
     }
 
     // Change title og a selected entry
     private void editEntryTitle(int index, String newTitle) {
-        this.diaryEntries.get(index).setTitle(newTitle);
+        this.diaryEntryRegister.getDiaryEntriesList().get(index).setTitle(newTitle);
     }
 
     // Delete entry by index
     private void deleteEntry(int index) {
-        this.diaryEntries.remove(index);
+        this.diaryEntryRegister.getDiaryEntriesList().remove(index);
     }
 
     private void entrySearch(String searchWord){
-        for (DiaryEntry entry: this.diaryEntries){
+        for (DiaryEntry entry: this.diaryEntryRegister.getDiaryEntriesList()){
             
         }
 
@@ -163,44 +142,12 @@ public class DiaryUI {
 
     // This method reads potential existing entries from "entries.json" and loads them into memory
     private void init() {
-        /* 
-        String filepath = "entries.json";
-
-        try {
-            if (Files.exists(Paths.get(filepath))) {
-                ArrayList<DiaryEntry> entries = gson.fromJson(
-                    new FileReader(filepath),
-                    new TypeToken<ArrayList<DiaryEntry>>() {}.getType()
-                );
-
-                if (entries != null) {
-                    this.diaryEntries.addAll(entries);
-                }
-            }
-        } 
-        
-        catch (IOException e) {
-            System.out.println("Could not read entries.json: " + e.getMessage());
-        }
-        */
        this.diaryEntryRegister.readFromJSON();
        this.authorRegister.readFromJSON();
     }
 
     // This method converts my ArrayList of entries (diaryEntries) into JSON and saves it to file
     private void save() {
-        /* 
-        String filepath = "entries.json";
-
-        try (FileWriter writer = new FileWriter(filepath)) {
-            gson.toJson(this.diaryEntries, writer);
-            System.out.println("\nDiary saved successfully!");
-        } 
-        
-        catch (IOException e) {
-            System.out.println("Could not save entries.json: " + e.getMessage());
-        }
-        */
        this.diaryEntryRegister.writeToJSON();
        this.authorRegister.writeToJSON();
     }
