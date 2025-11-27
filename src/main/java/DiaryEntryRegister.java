@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,7 +43,7 @@ class DiaryEntryRegister {
      * 
      * @return a list containing all diary entries
      */
-    private ArrayList<DiaryEntry> getDiaryEntriesList() {
+    public ArrayList<DiaryEntry> getDiaryEntriesList() {
         return this.diaryEntries;
     }
 
