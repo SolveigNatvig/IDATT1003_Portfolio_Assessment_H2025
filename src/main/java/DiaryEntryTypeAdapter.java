@@ -40,7 +40,6 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
         out.name("name").value(entry.getAuthor().getName());
         out.endObject();
 
-        //out.name("author").value(entry.getAuthor().getName()); // Is this right?
         out.name("content").value(entry.getContent());
         out.name("date").value(entry.getDate().format(formatter));
         out.endObject();
@@ -108,6 +107,6 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
         }
         in.endObject();
 
-        return new DiaryEntry(title, author, content);
+        return new DiaryEntry(title, author, content, date);
     }
 }
