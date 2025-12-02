@@ -1,8 +1,26 @@
 [
   {
-    "title": "Early Morning Study",
-    "author": "Sol",
-    "content": "This morning I woke up at 6 am. I took a long shower and at 7.30 am I want into the living room to play some christmas music and start my studies for the day :)",
-    "date": "2025-11-24T11:29:11.874995"
+    "title": "A Test",
+    "author": {
+      "name": "Solvena_so"
+    },
+    "content": "11111111",
+    "date": "2025-12-02T14:47:27.855999"
+  },
+  {
+    "title": "B Test",
+    "author": {
+      "name": "Solvena_so"
+    },
+    "content": "22222222",
+    "date": "2025-12-02T14:47:38.984855"
+  },
+  {
+    "title": "C Test",
+    "author": {
+      "name": "Fiola_fo"
+    },
+    "content": "skjhdfkjhskdjfhksjhdkfjhd",
+    "date": "2025-12-02T14:48:00.721203"
   }
 ]
