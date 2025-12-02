@@ -9,6 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Manages a collection of {@link DiaryEntry} objects and provides functionality
  * for creating, storing, and serializing diary entries to a JSON file
@@ -91,6 +94,96 @@ class DiaryEntryRegister {
     private void addDiaryEntryToList(DiaryEntry entry){
         this.diaryEntries.add(entry);
     }
+
+
+
+
+    
+
+    /**
+     * Searches for diary entries containing the specified keyword.
+     * 
+     * <p>The search is case-insensitive and checks the title, content, 
+     * author name, and date (formatted as dd.MM.yyyy).</p>
+     * 
+     * @param keyword the word or phrase to search for
+     * @return a list of diary entries that contain the keyword
+     */
+    public ArrayList<DiaryEntry> searchByKeyword(String keyword) {
+        ArrayList<DiaryEntry> results = new ArrayList<>();
+        String lowerKeyword = keyword.toLowerCase();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        for (DiaryEntry entry : this.diaryEntries) {
+            String title = entry.getTitle().toLowerCase();
+            String content = entry.getContent().toLowerCase();
+            String authorName = entry.getAuthor().getName().toLowerCase();
+            String dateString = entry.getDate().format(formatter);
+
+            if (title.contains(lowerKeyword) || 
+                content.contains(lowerKeyword) || 
+                authorName.contains(lowerKeyword) ||
+                dateString.contains(lowerKeyword)) {
+                results.add(entry);
+            }
+        }
+
+        return results;
+    }
+
+    /**
+     * Returns all diary entries created between two dates (inclusive).
+     * 
+     * @param startDate the start date of the range
+     * @param endDate the end date of the range
+     * @return a list of diary entries within the specified date range
+     */
+    public ArrayList<DiaryEntry> getEntriesBetweenDates(LocalDate startDate, LocalDate endDate) {
+        ArrayList<DiaryEntry> results = new ArrayList<>();
+
+        for (DiaryEntry entry : this.diaryEntries) {
+            LocalDate entryDate = entry.getDate().toLocalDate();
+
+            if ((entryDate.isEqual(startDate) || entryDate.isAfter(startDate)) &&
+                (entryDate.isEqual(endDate) || entryDate.isBefore(endDate))) {
+                results.add(entry);
+            }
+        }
+
+        return results;
+    }
+
+    /**
+     * Returns all diary entries created on a specific date.
+     * 
+     * @param date the date to search for
+     * @return a list of diary entries created on the specified date
+     */
+    public ArrayList<DiaryEntry> getEntriesOnDate(LocalDate date) {
+        ArrayList<DiaryEntry> results = new ArrayList<>();
+
+        for (DiaryEntry entry : this.diaryEntries) {
+            LocalDate entryDate = entry.getDate().toLocalDate();
+
+            if (entryDate.isEqual(date)) {
+                results.add(entry);
+            }
+        }
+
+        return results;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Saves all dary entries to a JSON file named {@code entries.json}
