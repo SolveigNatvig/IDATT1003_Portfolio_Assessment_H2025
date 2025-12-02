@@ -48,9 +48,10 @@ class Author {
         this.name = name;
     }
 
-    public void addNumberOfEntries(){
-        this.numberOfEntries += 1;
+    public void modifyNumberOfEntries(int number){
+        this.numberOfEntries += number;
     }
+
 }
 
 
