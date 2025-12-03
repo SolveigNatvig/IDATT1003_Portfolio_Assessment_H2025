@@ -2,9 +2,9 @@
 /**
  * Represents the author of a diary entry
  * 
- * <p> An {@code Author} object stores only a name which may be changed after 
- * creation. The class ensures that a blank name does not cause an exeption, 
- * but is instead stored as an empty string.
+ * <p> An {@code Author} object stores only a name, which may be changed after 
+ * creation. If a blank name is provided, it is stored as an empty string
+ * rather than causing an exception </p>
  */
 class Author {
     private String name;
@@ -16,13 +16,7 @@ class Author {
      * @param name the name of the author; if the value is blank, an empty string is stored instead
      */
     public Author(String name){
-        if (name.isBlank()){
-            //throw new IllegalArgumentException("Author must have a name");
-            this.name = "";
-        }
-        else{
-            this.name = name;
-        }
+        this.name = name;
         this.numberOfEntries = 0;
     }
 
@@ -35,6 +29,11 @@ class Author {
         return this.name;
     }
 
+    /**
+     * Returns the number of entries written by this author
+     * 
+     * @return the number of entries
+     */
     public int getNumberOfEntries(){
         return this.numberOfEntries;
     }
@@ -48,6 +47,11 @@ class Author {
         this.name = name;
     }
 
+    /**
+     * Modifies the number of diary entries connected to this author
+     * 
+     * @param number the number to add (or subtract if negative) to the current count
+     */
     public void modifyNumberOfEntries(int number){
         this.numberOfEntries += number;
     }
