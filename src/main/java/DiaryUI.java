@@ -1,10 +1,9 @@
-
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class DiaryUI {
-    private AuthorRegister authorRegister;
     private UserRegister userRegister;
     private DiaryEntryRegister diaryEntryRegister;
 
@@ -12,20 +11,19 @@ public class DiaryUI {
 
     // Constructor 
     public DiaryUI() {
-        this.authorRegister = new AuthorRegister();
         this.userRegister = new UserRegister();
         this.diaryEntryRegister = new DiaryEntryRegister();
         
-        // Loads any saved entries from the json file
+        // Loads any saved entries and users from the json file
         init();
     }
 
-    private DiaryEntry getDiaryEntry(int number) {
+    private DiaryEntry getDiaryEntryByIndex(int number) {
         return this.diaryEntryRegister.getDiaryEntriesList().get(number);
     }
 
     private void showAllEntries() {
-        System.out.println("Dette er innleggene som finnes i dagboken:\n");
+        System.out.println("This is the existing diary entries:\n");
         for (DiaryEntry entries : this.diaryEntryRegister.getDiaryEntriesList()) {
             System.out.println(this.diaryEntryRegister.getDiaryEntriesList().indexOf(entries) + ". " + entries);
         }
@@ -37,37 +35,102 @@ public class DiaryUI {
             return;
         }
 
-        System.out.println("Title (date is added automatically): ");
-        String title = scan.nextLine();
+        String title = validateNoBlankInput(scan, "Title (date is added automatically): ");
+        String content = validateNoBlankInput(scan, "Content: ");
 
         // Get the author connected to the current user
         Author author = this.currentUser.getAuthor();
         author.modifyNumberOfEntries(1);
 
-        System.out.println("Content: ");
-        String content = scan.nextLine();
-
         DiaryEntry entry = new DiaryEntry(title, author, content);
         this.diaryEntryRegister.getDiaryEntriesList().add(entry);
 
         this.save();
-        System.out.println("Entry saved for " + author.getName() + " (" + this.currentUser.getUsername() + ")");
+        System.out.println("Entry saved for " + author.getName());
 
     }
 
-    // Change content of a selected entry
+    // Change content of a selected entry (Only if you're logged inn as the correct user)
     private void editEntryContent(int index, String newContent) {
-        this.diaryEntryRegister.getDiaryEntriesList().get(index).setContent(newContent);
+        DiaryEntry entry = this.diaryEntryRegister.getDiaryEntriesList().get(index);
+
+        if (entry.getAuthor().getName().equals(this.currentUser.getAuthor().getName())) {
+            entry.setContent(newContent);
+            System.out.println("The entry was successfully updated");
+        }
+        else {
+            System.out.println("You're only authorised to change your own entries...");
+        }
     }
 
-    // Change title og a selected entry
+    // Change title og a selected entry (Only if you're logged inn as the correct user)
     private void editEntryTitle(int index, String newTitle) {
-        this.diaryEntryRegister.getDiaryEntriesList().get(index).setTitle(newTitle);
+        DiaryEntry entry = this.diaryEntryRegister.getDiaryEntriesList().get(index);
+
+        if (entry.getAuthor().getName().equals(this.currentUser.getAuthor().getName())) {
+            entry.setTitle(newTitle);
+            System.out.println("The entry was successfully updated");
+        }
+        else {
+            System.out.println("You're only authorised to change your own entries...");
+        }
     }
 
-    // Delete entry by index
+    // Delete entry by index (Only if you're logged inn as the correct user)
     private void deleteEntry(int index) {
-        this.diaryEntryRegister.getDiaryEntriesList().remove(index);
+        DiaryEntry entry = this.diaryEntryRegister.getDiaryEntriesList().get(index);
+
+        if (entry.getAuthor().getName().equals(this.currentUser.getAuthor().getName())) {
+            this.diaryEntryRegister.getDiaryEntriesList().remove(index);
+            System.out.println("The entry was successfully deleted");
+        }
+        else {
+            System.out.println("You're only authorised to delete your own entries...");
+        }
+    }
+
+    private int validateIntInput(Scanner scan) {
+        while (true) {
+            if (scan.hasNextInt()) {
+                int value = scan.nextInt();
+                scan.nextLine();
+                return value;
+            }
+
+            else {
+                System.out.println("Input failed. Please enter a number from the menu");
+                scan.nextLine();
+            }
+        }
+    }
+
+    private String validateNoBlankInput(Scanner scan, String instruction) {
+        while (true) {
+            System.out.println(instruction);
+            String value = scan.nextLine().trim();
+
+            if (value.isBlank()) {
+                System.out.println("Input cannot be empty. Try again");
+            }
+            else {
+                return value;
+            }
+        }
+    }
+
+    private LocalDate validateDateFormate(Scanner scan, String instruction) {
+        while (true) {
+            System.out.println(instruction);
+            String value = scan.nextLine().trim();
+
+            try {
+                return LocalDate.parse(value);
+            }
+
+            catch (DateTimeParseException e) {
+                System.out.println("Invalid input, try again");
+            }
+        }
     }
 
     public void start(Scanner scan) {
@@ -78,10 +141,10 @@ public class DiaryUI {
             System.out.println("1. Login");
             System.out.println("2. Register new user");
             System.out.println("3. Exit");
+            System.out.println("Enter a number. Choose from the options above\n");
 
-            option = scan.nextInt();
-            scan.nextLine();
-
+            option = this.validateIntInput(scan);
+            
             if (option == 1) {
                 System.out.println("Username:");
                 String username = scan.nextLine();
@@ -106,10 +169,9 @@ public class DiaryUI {
                         System.out.println("8. Find entries on date");
                         System.out.println("9. Change password");
                         System.out.println("10. Log out");
-                        System.out.println("Choose from the options above");
+                        System.out.println("Enter a number. Choose from the options above\n");
 
-                        option = scan.nextInt();
-                        scan.nextLine();
+                        option = this.validateIntInput(scan);
 
                         if (option == 1) {
                             this.newDiaryEntry(scan);
@@ -123,20 +185,19 @@ public class DiaryUI {
                             this.showAllEntries();
 
                             System.out.println("What entry do you want to change?");
-                            int index = scan.nextInt();
+                            int index = validateIntInput(scan);
                             scan.nextLine();
 
                             System.out.println("Choose what to change: \n 1. Title \n 2. Content");
-                            int change = scan.nextInt();
+                            int change = validateIntInput(scan);
                             scan.nextLine();
 
                             if (change == 1) {
-                                System.out.println("Please write the new title");
-                                String newTitle = scan.nextLine();
+                                String newTitle = validateNoBlankInput(scan, "Please write the new title");
                                 this.editEntryTitle(index, newTitle);
-                            } else if (change == 2) {
-                                System.out.println("Please write the new version of the entry");
-                                String newContent = scan.nextLine();
+                            } 
+                            else if (change == 2) {
+                                String newContent = validateNoBlankInput(scan, "Please write the new version of the entry");
                                 this.editEntryContent(index, newContent);
                             }
 
@@ -147,14 +208,14 @@ public class DiaryUI {
                             this.showAllEntries();
 
                             System.out.println("Which entry do you want to delete?");
-                            int index = scan.nextInt();
+                            int index = validateIntInput(scan);
                             scan.nextLine();
 
-                            System.out.println("Are you sure you want to delete this entry? (y/n)\n \n" + this.getDiaryEntry(index));
+                            System.out.println("Are you sure you want to delete this entry? (y/n)\n \n" + this.getDiaryEntryByIndex(index));
                             String confirmation = scan.nextLine();
 
                             if (confirmation.equals("y")) {
-                                DiaryEntry entryToDelete = this.getDiaryEntry(index);
+                                DiaryEntry entryToDelete = this.getDiaryEntryByIndex(index);
                                 entryToDelete.getAuthor().modifyNumberOfEntries(-1);
                                 this.deleteEntry(index);
                                 this.save();
@@ -163,7 +224,7 @@ public class DiaryUI {
 
                         else if (option == 5){
                             System.out.println("Name : Entries");
-                            this.userRegister.printAuthorList();
+                            this.userRegister.printAuthorStatistics();
                         }
 
                         else if (option == 6) {
@@ -178,11 +239,9 @@ public class DiaryUI {
 
                         else if (option == 7) {
                             System.out.println("You have choosen to find the entries between two dates");
-                            System.out.println("Start date (YYYY-MM-DD): ");
-                            LocalDate startDate = LocalDate.parse(scan.nextLine());
+                            LocalDate startDate = validateDateFormate(scan, "Start date (YYYY-MM-DD): ");
 
-                            System.out.println("End date (YYYY-MM-DD): ");
-                            LocalDate endDate = LocalDate.parse(scan.nextLine());
+                            LocalDate endDate = validateDateFormate(scan, "End date (YYYY-MM-DD): ");
 
                             ArrayList<DiaryEntry> results = this.diaryEntryRegister.getEntriesBetweenDates(startDate, endDate);
                             
@@ -193,8 +252,7 @@ public class DiaryUI {
 
                         else if (option == 8) {
                             System.out.println("You have choosen to find the entries on date");
-                            System.out.println("Please type in your date (YYYY-MM-DD)");
-                            LocalDate date = LocalDate.parse(scan.nextLine());
+                            LocalDate date = validateDateFormate(scan, "Please type in your date (YYYY-MM-DD)");
 
                             ArrayList<DiaryEntry> results = this.diaryEntryRegister.getEntriesOnDate(date);
                             
@@ -228,8 +286,7 @@ public class DiaryUI {
                 String username;
 
                 while (true) {
-                    System.out.println("Create a username:");
-                    username = scan.nextLine();
+                    username = validateNoBlankInput(scan, "Create a username:");
 
                     if (this.userRegister.isUser(username)){
                         System.out.println("This username is already in use, try another one");
@@ -240,17 +297,16 @@ public class DiaryUI {
                     }
                 }
 
-                System.out.println("Create a password:");
-                String password = scan.nextLine();
+                String password = validateNoBlankInput(scan, "Create a password:");
 
-                System.out.println("Whats your name? ");
-                String name = scan.nextLine();
+                String name = validateNoBlankInput(scan, "Whats your name? ");
 
                 this.userRegister.addNewUser(name, username, password);
                 this.save();
             }
 
             else if (option == 3) {
+                System.out.println("Exiting the Diary application...");
                 break; 
             }
         }
