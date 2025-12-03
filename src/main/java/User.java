@@ -1,8 +1,8 @@
 
 class User {
-    private Author author;
+    private final Author author;
     private int familyID;
-    private String username;
+    private final String username;
     private String password; // This password is supposed to be hashed
 
 
@@ -41,10 +41,6 @@ class User {
 
     public int getFamilyID(){
         return this.familyID;
-    }
-
-    public void setName(String name){ //Should name be final?
-        this.author.setName(name);
     }
 
     public void setNewPassword(String newPassword){
