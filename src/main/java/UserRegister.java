@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,15 +8,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import com.google.gson.Gson;
-
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import com.google.gson.Gson;
-
 import com.google.gson.reflect.TypeToken;
 
 
@@ -65,7 +54,7 @@ public class UserRegister {
         return userList.stream().filter(u -> u.getUsername().equalsIgnoreCase(username)).findFirst().orElse(null);
     }
 
-    public void printAuthorList() {
+    public void printAuthorStatistics() {
         for (User user : this.userList){
             System.out.println(String.format("%s : %d", user.getAuthor().getName(), user.getAuthor().getNumberOfEntries()));
         }
