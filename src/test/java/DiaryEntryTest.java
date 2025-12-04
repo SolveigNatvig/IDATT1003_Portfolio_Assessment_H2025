@@ -3,68 +3,104 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * Uses Arrange-Act-Assert
+ */
 public class DiaryEntryTest {
+
+    // POSITIVE TESTS
     
     @ Test
-    public void testConstructorsInitilisesField() {
-        Author author = new Author("Solveig");
+    public void DiaryEntry_shouldInitiliseField_whenGivenExpextedValues() {
         
-        DiaryEntry entry = new DiaryEntry("Title", author, "This is the content of the entry");
+        // Arrange
+        String expectedTitle = "Title";
+        Author expectedAuthor = new Author("Jane");
+        String expectedContent = "This is the content of the entry";
 
-        assertEquals("Title", entry.getTitle());
-        assertEquals(author, entry.getAuthor());
-        assertEquals("This is the content of the entry", entry.getContent());
+        // Act
+        DiaryEntry entry = new DiaryEntry(expectedTitle, expectedAuthor, expectedContent);
+        
+        // Assert
+        assertEquals(expectedTitle, entry.getTitle());
+        assertEquals(expectedAuthor, entry.getAuthor());
+        assertEquals(expectedContent, entry.getContent());
         assertNotNull(entry.getDate());
     }
 
     @ Test
-    public void testConstructorWithGivenDate() {
-        Author author = new Author("Solveig");
-        LocalDateTime givenDate = LocalDateTime.of(2025, 12, 1, 10, 21);
-        
-        DiaryEntry entry = new DiaryEntry("Title", author, "This is the content of the entry", givenDate);
+    public void DiaryEntry_shouldUseGivenDate_whenProvided() {
 
+        // Arrange
+        String expectedTitle = "Title";
+        Author expectedAuthor = new Author("Jane");
+        String expectedContent = "This is the content of the entry";
+        LocalDateTime expectedDate = LocalDateTime.of(2025, 12, 1, 10, 21);
 
-        assertEquals("Title", entry.getTitle());
-        assertEquals(author, entry.getAuthor());
-        assertEquals("This is the content of the entry", entry.getContent());
-        assertEquals(givenDate, entry.getDate());
+        // Act 
+        DiaryEntry entry = new DiaryEntry(expectedTitle, expectedAuthor, expectedContent, expectedDate);
 
+        // Assert
+        assertEquals(expectedTitle, entry.getTitle());
+        assertEquals(expectedAuthor, entry.getAuthor());
+        assertEquals(expectedContent, entry.getContent());
+        assertEquals(expectedDate, entry.getDate());
     }
 
     @ Test
-    public void testSetTitleUpdatesTitle() {
-        DiaryEntry entry = new DiaryEntry("Old Title", new Author("TestAuthor"), "Content");
-        entry.setTitle("New Title");
+    public void setTitle_shouldUpdateTitle_whenNewTitleIsValid() {
 
-        assertEquals("New Title", entry.getTitle());
+        // Arrange
+        DiaryEntry entry = new DiaryEntry("Old Title", new Author("Jane"), "Content"); 
+        String expectedTitle = "New Title";
+
+        // Act
+        entry.setTitle(expectedTitle);
+
+        // Assert
+        assertEquals(expectedTitle, entry.getTitle());
     }
 
     @ Test
-    public void testSetContentUpdatesContent() {
-        DiaryEntry entry = new DiaryEntry("Title", new Author("TestAuthor"), "Old Content");
-        entry.setContent("New Content");
+    public void setContent_shouldUpdatesContent_whenNewContentIsValid() {
 
-        assertEquals("New Content", entry.getContent());
+        // Arrange
+        DiaryEntry entry = new DiaryEntry("Title", new Author("Jane"), "Old Content");
+        String expectedContent = "New Content";
+
+        // Act
+        entry.setContent(expectedContent);
+
+        // Assert
+        assertEquals(expectedContent, entry.getContent());
     }
-
 
     @Test
-    void testToStringContainsExpectedValues() {
-        Author author = new Author("Solveig");
-        LocalDateTime fixedDate = LocalDateTime.of(2025, 12, 1, 10, 30);
-        DiaryEntry entry = new DiaryEntry("My day", author, "This is the content", fixedDate);
+    void toString_shouldContainTitleAuthorNameContentAndFormattedDate() {
 
+        // Arrange
+        LocalDateTime fixedDate = LocalDateTime.of(2025, 12, 1, 10, 30);
+        String expectedDate = fixedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+        String expectedTitle = "Title";
+        String expectedAuthorName = "Jane";
+        String expectedContent = "Content";
+
+        Author author = new Author(expectedAuthorName);
+        DiaryEntry entry = new DiaryEntry(expectedTitle, author, expectedContent, fixedDate);
+
+        // Act
         String result = entry.toString();
 
-        assertTrue(result.contains("My day"));
-        assertTrue(result.contains("This is the content"));
-        assertTrue(result.contains("Solveig"));
-
-        String expectedDate = fixedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-        assertTrue(result.contains(expectedDate), "The formate of the date should be dd.MM.yyyy HH:mm");
+        // Assert
+        assertTrue(result.contains(expectedTitle));
+        assertTrue(result.contains(expectedAuthorName));
+        assertTrue(result.contains(expectedContent));
+        assertTrue(result.contains(expectedDate));
     }
 
+
+    // NEGATIVE TESTS
+
+    
 
 }
