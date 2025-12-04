@@ -13,23 +13,54 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Manages a collection of {@link DiaryEntry} objects and provides functionality
- * for creating, storing, and serializing diary entries to a JSON file
+ * Registry class for managing diary entries in the application.
  * 
- * <p> The register uses a {@link Gson} instance configured with a custom
- * {@code DiaryEntryTypeAdapter}, which allowes {@link java.time.LocalDateTime}
- * fields inside {@code DiaryEntry} objects to be correctly serialised and deserialised. </p>
+ * <br><br>
+ * 
+ * <b>Responsibility:</b> 
+ * <br>
+ * This class is responsible for managing a collection of {@link DiaryEntry} objects.
+ * It provides functionality for creating, storing and parsistence (saving/loading diary entries to/from JSON files).
+ * 
+ * <br><br>
+ * 
+ * DiaryEntryRegister acts as the single point of access for all diary entry related operations within the system. The register uses a {@link Gson} instance configured with a custom {@code DiaryEntryTypeAdapter}, which allowes {@link java.time.LocalDateTime} fields inside {@code DiaryEntry} objects to be correctly serialised and deserialised.
+ * 
+ * <br><br>
+ * 
+ * <b>Information stored and datatype choices:</b>
+ * <br>
+ * - {@code diaryEntries} ({@code ArrayList<DiaryEntry>}): A dynamic list for all existing diary entries. ArrayList was chosen because:
+ * - When the application is first started, the number of diary entries is zero, but as the application is used the bumber of diary entries will expand.
+ * - The entries needs to be iterated through for seraching.
+ * - ArrayList provides access by index and efficient iteration with streams.
+ * - Easy serialisation/deserialisation with the Gson libary
+ * 
+ * - {@code gson} ({@code Gson}): A Gson instance for JSON serialisation. Gson was chosen because: <br>
+ *      - It handles complex object serialisation authomatically. <br>
+ *      - It is a widely used and well documented libary for JSON in java. <br>
+ *      - Supports generic types like ArrayList&lt;User&gt;
+ * 
+ * <br><br>
+ * 
+ * <b>Mutability assessment:</b> what should be set at creation vs changable
+ * (TABLE)
+ * 
+ * <br><br>
+ * 
+ * <b>How does the class respond to invalid data?</b>
+ * (INFO)
+ * 
  */
 
-class DiaryEntryRegister {
+public class DiaryEntryRegister {
     private ArrayList<DiaryEntry> diaryEntries;
     private final Gson gson;
 
     /**
-     * Creates a new {@code DiaryEntryRegister} with an empty collection
+     * Creates a new empty DiaryEntryRegister. Initialises an empty list of diary entries ({@code ArrayList}) and a custom Gson instance for JSON operations which allowes {@link java.time.LocalDateTime} fields inside {@code DiaryEntry} objects to be correctly serialised and deserialised.
      * 
-     * <p> A {@link Gson} instance is initialised with a custom type adapter in 
-     * order to correctly handle {@link java.time.LocalDateTime} when entries are written to JSON. </p>
+     * Diary entries can be added via {@code newDiaryEntry()} or added from file via {@code readFromJSON()}
      */
     public DiaryEntryRegister(){
         this.diaryEntries = new ArrayList<>();
@@ -40,9 +71,6 @@ class DiaryEntryRegister {
 
     /**
      * Returns the internal list of the diary entries.
-     * 
-     * <p> This method is private because the method is not intended to be 
-     * exposed externally. </p>
      * 
      * @return a list containing all diary entries
      */
@@ -57,54 +85,41 @@ class DiaryEntryRegister {
      * @returns the diary entry at the specified index
      * @throws IndexOutOfBounds
      */
-    private DiaryEntry getDiaryEntry(int number) {
+    public DiaryEntry getDiaryEntryByIndex(int number) {
         return this.diaryEntries.get(number);
     }
 
     /**
      * Prints all diary entries to the console, togehter with their index.
      * 
-     * <p> The index corresponds directly to positions within the internal list. </p>
+     * <br><br>
+     * 
+     * The index corresponds directly to positions within the internal list.
      */
-    private void showAllEntries() {
-        System.out.println("Dette er innleggene som finnes i dagboken:\n");
+    public void showAllEntries() {
+        System.out.println("This is all the existing diary entries:\n");
         for (DiaryEntry entries : this.getDiaryEntriesList()) {
             System.out.println(getDiaryEntriesList().indexOf(entries) + ". " + entries);
         }
     }
 
     /**
-     * Creates a new {@link DiaryEntry} without adding it to the register.
-     * 
-     * @param title the title of the diary entry
-     * @param author the author who wrote the entry
-     * @param content the content of the entry
-     * @return a newly created diary entry
+     * Method used to create a new diary entry and adding the new entry to the list {@code diaryEntries}
+     * @param title the title of the new entry
+     * @param author the author belonging to the user logged inn which is the author who writes the new entry
+     * @param content the content of the new diary entry
      */
-    private DiaryEntry newDiaryEntry(String title, Author author, String content){
+    public void addNewDiaryEntry(String title, Author author, String content) {
         DiaryEntry entry = new DiaryEntry(title, author, content);
-        return entry;
-    }
-
-    /**
-     * Adds a given {@code DiaryEntry} to the internal list.
-     * 
-     * @param entry the diary entry to add
-     */
-    private void addDiaryEntryToList(DiaryEntry entry){
         this.diaryEntries.add(entry);
     }
-
-
-
-
-    
 
     /**
      * Searches for diary entries containing the specified keyword.
      * 
-     * <p>The search is case-insensitive and checks the title, content, 
-     * author name, and date (formatted as dd.MM.yyyy).</p>
+     * The search is case-insensitive and checks the title, content, 
+     * author name, and date (formatted as dd.MM.yyyy).
+     * Since it checks the title, content and date, it allowes for users to serch for words, authors or dates.
      * 
      * @param keyword the word or phrase to search for
      * @return a list of diary entries that contain the keyword
@@ -153,7 +168,7 @@ class DiaryEntryRegister {
         return results;
     }
 
-    /**
+    /** I DONT ACCTUALLY NEED THIS ONE...(DO I WANT TO KEEP IT?)
      * Returns all diary entries created on a specific date.
      * 
      * @param date the date to search for
@@ -171,42 +186,11 @@ class DiaryEntryRegister {
         }
 
         return results;
-
     }
-
-
-
-
-
-
-
-
-
-
-
 
     /**
-     * Saves all dary entries to a JSON file named {@code entries.json}
-     * 
-     * <p> The method uses the configured {@link Gson} instance to serialise
-     * the list of entries. The output file is overwritten each time the method is invoked. </p>
-     * 
-     * <p> If an I/O error occurs, an error message is printed instead of throwing an exception, allowing 
-     * normal programme flow to continue. </p>
+     * Method used to read information from json file
      */
-    private void saveToJSON(){
-        String filepath = "entries.json";
-
-        try (FileWriter writer = new FileWriter(filepath)) {
-            gson.toJson(this.diaryEntries, writer);
-            System.out.println("\nDiary saved successfully!");
-        } 
-        
-        catch (IOException e) {
-            System.out.println("Could not save entries.json: " + e.getMessage());
-        }
-    }
-
     public void readFromJSON(){
         String filepath = "entries.json";
 
@@ -228,6 +212,9 @@ class DiaryEntryRegister {
         }
     }
 
+    /**
+     * method used to write to json
+     */
     public void writeToJSON(){
         String filepath = "entries.json";
 

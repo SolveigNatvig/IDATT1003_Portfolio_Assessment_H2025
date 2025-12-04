@@ -6,15 +6,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * A custom {@link TypeAdapter} for serialising and deserialising
- * {@link DiaryEntry} objects using Gson
+ * A custom {@link TypeAdapter} for serialising and deserialising {@link DiaryEntry} objects using Gson
  * 
- * <p> This adapter is required bacause {@link java.time.LocalDateTime} is not 
- * natively supported by Gson, and because {@link Author} must be explicitly 
- * written and reconstructed. </p>
+ * This adapter is required bacause {@link java.time.LocalDateTime} is not natively supported by Gson, and because {@link Author} must be explicitly written and reconstructed. 
  * 
- * <p> The adapter writes each file of a {@code DiaryEntry} as a JSON object and
- * reconstructs the object by reading those fields back in the same format. </p>
+ * The adapter writes each file of a {@code DiaryEntry} as a JSON object and reconstructs the object by reading those fields back in the same format.
  */
 public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
     /** Formatter used for serialising and parsing LocalDateTime values */
@@ -24,11 +20,12 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
     /**
      * Serialises a {@link DiaryEntry} into JSON
      * 
+     * This method writes out each field of a DiaryEntry into a JSON object
+     * 
      * @param out the JSON writer
      * @param entry the diary entry to serialise
-     * @throws IOExeption if writing to the output fails
+     * @throws IOException if writing to the output fails
      */
-    // This method writes out each field of a DiaryEntry into a JSON object
     @Override
     public void write(JsonWriter out, DiaryEntry entry) throws IOException {
         out.beginObject();
@@ -48,18 +45,18 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
     /**
      * Deserialises a {@link DiaryEntry} from JSON input.
      * 
+     * Reconstructs a DiaryEntry by reading fields back from JSON text
+     * 
      * @param in the JSON reader used to read fields
      * @return the reconstructed {@code DiaryEntry} instance 
-     * @throws IOExeption if reading fails or JSON is malformed 
+     * @throws IOException if reading fails or JSON is malformed 
      */
-    // Reconstructs a DiaryEntry by reading fields back from JSON text
     @Override
     public DiaryEntry read(JsonReader in) throws IOException {
         String title = null;
         Author author = null;
         String content = null;
         LocalDateTime date = null;
-        LocalDateTime lastEdited = null;
 
         in.beginObject();
         while (in.hasNext()) {
@@ -94,10 +91,6 @@ public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
 
                 case "date":
                     date = LocalDateTime.parse(in.nextString(), formatter);
-                    break;
-
-                case "lastEdited":
-                    lastEdited = LocalDateTime.parse(in.nextString(), formatter);
                     break;
                     
                 default:

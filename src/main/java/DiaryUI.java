@@ -3,13 +3,18 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * This is the user interface for the diary application
+ */
 public class DiaryUI {
     private UserRegister userRegister;
     private DiaryEntryRegister diaryEntryRegister;
 
     private User currentUser;
 
-    // Constructor 
+    /**
+     * Constructor
+     */
     public DiaryUI() {
         this.userRegister = new UserRegister();
         this.diaryEntryRegister = new DiaryEntryRegister();
@@ -18,17 +23,10 @@ public class DiaryUI {
         init();
     }
 
-    private DiaryEntry getDiaryEntryByIndex(int number) {
-        return this.diaryEntryRegister.getDiaryEntriesList().get(number);
-    }
-
-    private void showAllEntries() {
-        System.out.println("This is the existing diary entries:\n");
-        for (DiaryEntry entries : this.diaryEntryRegister.getDiaryEntriesList()) {
-            System.out.println(this.diaryEntryRegister.getDiaryEntriesList().indexOf(entries) + ". " + entries);
-        }
-    }
-
+    /**
+     * A method for creating a new diary entry
+     * @param scan the scanner used to ask user for input
+     */
     private void newDiaryEntry(Scanner scan) {
         if (this.currentUser == null) {
             System.out.println("You must be logged in to create an entry.");
@@ -42,15 +40,18 @@ public class DiaryUI {
         Author author = this.currentUser.getAuthor();
         author.modifyNumberOfEntries(1);
 
-        DiaryEntry entry = new DiaryEntry(title, author, content);
-        this.diaryEntryRegister.getDiaryEntriesList().add(entry);
+        this.diaryEntryRegister.addNewDiaryEntry(title, author, content);
 
         this.save();
         System.out.println("Entry saved for " + author.getName());
 
     }
 
-    // Change content of a selected entry (Only if you're logged inn as the correct user)
+    /**
+     * A method for editing the content of the selected entry. (Only if you're logged inn as the correct user)
+     * @param index the index of the desired entry
+     * @param newContent the changed content which is to take the old contens place
+     */
     private void editEntryContent(int index, String newContent) {
         DiaryEntry entry = this.diaryEntryRegister.getDiaryEntriesList().get(index);
 
@@ -63,7 +64,11 @@ public class DiaryUI {
         }
     }
 
-    // Change title og a selected entry (Only if you're logged inn as the correct user)
+    /**
+     * Change title og a selected entry (Only if you're logged inn as the correct user)
+     * @param index the index of the desired entry
+     * @param newTitle the changed title which is to take the old titles place
+     */
     private void editEntryTitle(int index, String newTitle) {
         DiaryEntry entry = this.diaryEntryRegister.getDiaryEntriesList().get(index);
 
@@ -76,7 +81,12 @@ public class DiaryUI {
         }
     }
 
-    // Delete entry by index (Only if you're logged inn as the correct user)
+
+    /**
+     * Delete entry by index (Only if you're logged inn as the correct user)
+     * 
+     * @param index the index of the desired entry
+     */
     private void deleteEntry(int index) {
         DiaryEntry entry = this.diaryEntryRegister.getDiaryEntriesList().get(index);
 
@@ -89,6 +99,11 @@ public class DiaryUI {
         }
     }
 
+    /**
+     * Method for making sure the integer input from user is in fact integer and not something else
+     * @param scan the scanner which takes input fromm user
+     * @return the integer the user writes if it is in fact an integer
+     */
     private int validateIntInput(Scanner scan) {
         while (true) {
             if (scan.hasNextInt()) {
@@ -104,6 +119,12 @@ public class DiaryUI {
         }
     }
 
+    /**
+     * Method to make sure the desired string input from user wont be blank
+     * @param scan the scanner whick takes input from the user
+     * @param instruction a string of instructions of what the input represents
+     * @return return the non blank string the user wrote
+     */
     private String validateNoBlankInput(Scanner scan, String instruction) {
         while (true) {
             System.out.println(instruction);
@@ -118,6 +139,12 @@ public class DiaryUI {
         }
     }
 
+    /**
+     * metod for making sure the date input is on the correct form
+     * @param scan the scanner used to take input from the user
+     * @param instruction a string of instructions of what the input represents and its desired form
+     * @return the date when the user writes on the correct form
+     */
     private LocalDate validateDateFormate(Scanner scan, String instruction) {
         while (true) {
             System.out.println(instruction);
@@ -133,6 +160,10 @@ public class DiaryUI {
         }
     }
 
+    /**
+     * The method called to run the program
+     * @param scan the scanner used to get input from user
+     */
     public void start(Scanner scan) {
         int option;
 
@@ -178,11 +209,11 @@ public class DiaryUI {
                         } 
                         
                         else if (option == 2) {
-                            this.showAllEntries();
+                            this.diaryEntryRegister.showAllEntries();
                         } 
                         
                         else if (option == 3) {
-                            this.showAllEntries();
+                            this.diaryEntryRegister.showAllEntries();
 
                             System.out.println("What entry do you want to change?");
                             int index = validateIntInput(scan);
@@ -205,17 +236,17 @@ public class DiaryUI {
                         } 
                         
                         else if (option == 4) {
-                            this.showAllEntries();
+                            this.diaryEntryRegister.showAllEntries();
 
                             System.out.println("Which entry do you want to delete?");
                             int index = validateIntInput(scan);
                             scan.nextLine();
 
-                            System.out.println("Are you sure you want to delete this entry? (y/n)\n \n" + this.getDiaryEntryByIndex(index));
+                            System.out.println("Are you sure you want to delete this entry? (y/n)\n \n" + this.diaryEntryRegister.getDiaryEntryByIndex(index));
                             String confirmation = scan.nextLine();
 
                             if (confirmation.equals("y")) {
-                                DiaryEntry entryToDelete = this.getDiaryEntryByIndex(index);
+                                DiaryEntry entryToDelete = this.diaryEntryRegister.getDiaryEntryByIndex(index);
                                 entryToDelete.getAuthor().modifyNumberOfEntries(-1);
                                 this.deleteEntry(index);
                                 this.save();
@@ -312,13 +343,17 @@ public class DiaryUI {
         }
     }
 
-    // This method reads potential existing entries from "entries.json" and loads them into memory
+    /**
+     * This method reads potential existing entries from "entries.json" and loads them into memory
+     */
     private void init() {
        this.diaryEntryRegister.readFromJSON();
        this.userRegister.readFromJSON();
     }
 
-    // This method converts my ArrayList of entries (diaryEntries) into JSON and saves it to file
+    /**
+     * This method converts my ArrayList of entries (diaryEntries) into JSON and saves it to file
+     */
     private void save() {
        this.diaryEntryRegister.writeToJSON();
        this.userRegister.writeToJSON();
