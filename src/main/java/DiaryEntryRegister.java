@@ -98,9 +98,11 @@ public class DiaryEntryRegister {
      */
     public void showAllEntries() {
         System.out.println("This is all the existing diary entries:\n");
+
         for (DiaryEntry entries : this.getDiaryEntriesList()) {
             System.out.println(getDiaryEntriesList().indexOf(entries) + ". " + entries);
         }
+    
     }
 
     /**
@@ -135,10 +137,7 @@ public class DiaryEntryRegister {
             String authorName = entry.getAuthor().getName().toLowerCase();
             String dateString = entry.getDate().format(formatter);
 
-            if (title.contains(lowerKeyword) || 
-                content.contains(lowerKeyword) || 
-                authorName.contains(lowerKeyword) ||
-                dateString.contains(lowerKeyword)) {
+            if (title.contains(lowerKeyword) || content.contains(lowerKeyword) || authorName.contains(lowerKeyword) || dateString.contains(lowerKeyword)) {
                 results.add(entry);
             }
         }
