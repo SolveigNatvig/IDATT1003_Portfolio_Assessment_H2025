@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
  * Represents an entry, consisting of a title, author, content and creation date
  * 
  * <br><br>
- * 
- * An {@code DiaryEntry} object stores a title, author, content and a date of creation. The {@code DiaryEntry} is created with a timestamp representing when the entry was written.
+ * An {@code DiaryEntry} object stores a title, author, content and a date of creation. 
+ * The {@code DiaryEntry} is created with a timestamp representing when the entry was written.
  * 
  * <br><br>
  * 
@@ -36,111 +36,109 @@ import java.time.format.DateTimeFormatter;
  * toString()
  */
 public class DiaryEntry {
-    private String title;
-    private Author author;
-    private String content;
-    private final LocalDateTime date;
+  private String title;
+  private Author author;
+  private String content;
+  private final LocalDateTime date;
 
-    /**
-     * Creating a new diary entry using the current system time as the creation date
-     * 
-     * @param title the title of the diary entry
-     * @param author the author who wrote the entry
-     * @param content the text content of the diary entry
-     */
-    public DiaryEntry(String title, Author author, String content) {
-        this.title = title;
-        this.author = author;
-        this.content = content;
-        this.date = LocalDateTime.now();
+  /**
+  * Creating a new diary entry using the current system time as the creation date.
+  * 
+  * @param title the title of the diary entry
+  * @param author the author who wrote the entry
+  * @param content the text content of the diary entry
+  */
+  public DiaryEntry(String title, Author author, String content) {
+    this.title = title;
+    this.author = author;
+    this.content = content;
+    this.date = LocalDateTime.now();
+  }
 
-    }
+  /**
+  * Creates a new diary entry with a specified date.
+  * 
+  * <p>This constructor can be useful when loading diary entries from storage
+  * where the original creation date must be preserved.
+  * </p>
+  *
+  * @param title   the title of the diary entry
+  * @param author  the author who wrote the entry
+  * @param content the text content of the diary entry
+  * @param date    the creation date of the diary entry
+  */
+  public DiaryEntry(String title, Author author, String content, LocalDateTime date) {
+    this.title = title;
+    this.author = author;
+    this.content = content;
+    this.date = date;
+  }
 
-    /**
-     * Creates a new diary entry with a specified date.
-     * <p>
-     * This constructor can be useful when loading diary entries from storage
-     * where the original creation date must be preserved.
-     * </p>
-     *
-     * @param title   the title of the diary entry
-     * @param author  the author who wrote the entry
-     * @param content the text content of the diary entry
-     * @param date    the creation date of the diary entry
-     */
-    public DiaryEntry(String title, Author author, String content, LocalDateTime date) {
-        this.title = title;
-        this.author = author;
-        this.content = content;
-        this.date = date;
-    }
+  /**
+  * Returns the title of this diary entry.
+  *
+  * @return the title
+  */
+  public String getTitle() {
+    return this.title;
+  }
 
-    /**
-     * Returns the title of this diary entry.
-     *
-     * @return the title
-     */
-    public String getTitle() {
-        return this.title;
-    }
+  /**
+  * Returns the author of this diary entry.
+  *
+  * @return the author
+  */
+  public Author getAuthor() {
+    return this.author;
+  }
 
-    /**
-     * Returns the author of this diary entry.
-     *
-     * @return the author
-     */
-    public Author getAuthor() {
-        return this.author;
-    }
+  /**
+  * Returns the content of the diary entry.
+  * 
+  * @return the content
+  */
+  public String getContent() {
+    return this.content;
+  }
 
-    /**
-     * Returns the content of the diary entry
-     * 
-     * @return the content
-     */
+  /**
+  * Returns the date the diary entry was written.
+  * 
+  * @return the publish date
+  */
+  public LocalDateTime getDate() {
+    return this.date;
+  }
 
-    public String getContent() {
-        return this.content;
-    }
+  /**
+  * Updates the title of this diary entry.
+  * 
+  * @param newTitle the new title to set
+  */
+  public void setTitle(String newTitle) {
+    this.title = newTitle;
+  }
 
-    /**
-     * Returns the date the diary entry was written
-     * 
-     * @return the publish date
-     */
-    public LocalDateTime getDate() {
-        return this.date;
-    }
+  /**
+  * Updates the content of the diary entry.
+  * 
+  * @param newContent the new content to set
+  */
+  public void setContent(String newContent) {
+    this.content = newContent;
+  }
 
-    /**
-     * Updates the title of this diary entry
-     * 
-     * @param newTitle the new title to set
-     */
-
-    public void setTitle(String newTitle) {
-        this.title = newTitle;
-    }
-
-    /**
-     * Updates the content of the diary entry
-     * 
-     * @param newContent the new content to set
-     */
-    public void setContent(String newContent) {
-        this.content = newContent;
-    }
-
-    /**
-     * Updates the {@code lastEdited} timestamp to the current system time
-     * 
-     * <p> This method should be called whenever the entry is modified, to keep
-     * track of revisions over time. </p>
-     */
-    @Override 
-    public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-        String formattedDate = this.date.format(formatter);
-        return String.format("\n%s, %s\n%s\nby %s\n", this.title, formattedDate, this.content, this.author.getName());
-    }
+  /**
+  * Updates the {@code lastEdited} timestamp to the current system time.
+  * 
+  * <p>This method should be called whenever the entry is modified, to keep
+  * track of revisions over time. </p>
+  */
+  @Override 
+  public String toString() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    String formattedDate = this.date.format(formatter);
+    return String.format("\n%s, %s\n%s\nby %s\n", this.title,
+     formattedDate, this.content, this.author.getName());
+  }
 }

@@ -1,0 +1,4 @@
+/** Javadoc. */
+public class DiaryUserInterfaceTest {
+    
+}

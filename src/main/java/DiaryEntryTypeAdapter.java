@@ -6,100 +6,102 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * A custom {@link TypeAdapter} for serialising and deserialising {@link DiaryEntry} objects using Gson
- * 
- * This adapter is required bacause {@link java.time.LocalDateTime} is not natively supported by Gson, and because {@link Author} must be explicitly written and reconstructed. 
- * 
- * The adapter writes each file of a {@code DiaryEntry} as a JSON object and reconstructs the object by reading those fields back in the same format.
- */
+* A custom {@link TypeAdapter} for serialising and deserialising 
+* {@link DiaryEntry} objects using Gson.
+* This adapter is required bacause {@link java.time.LocalDateTime}
+*  is not natively supported by Gson, and because {@link Author} 
+* must be explicitly written and reconstructed. 
+* The adapter writes each file of a {@code DiaryEntry} 
+* as a JSON object and reconstructs the object by reading those fields back in the same format.
+*/
 public class DiaryEntryTypeAdapter extends TypeAdapter<DiaryEntry> {
-    /** Formatter used for serialising and parsing LocalDateTime values */
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+  /** Formatter used for serialising and parsing LocalDateTime values. */
+  private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
+  /** Default constructor for the type adapter. */
+  public DiaryEntryTypeAdapter() {}
 
-    /**
-     * Serialises a {@link DiaryEntry} into JSON
-     * 
-     * This method writes out each field of a DiaryEntry into a JSON object
-     * 
-     * @param out the JSON writer
-     * @param entry the diary entry to serialise
-     * @throws IOException if writing to the output fails
-     */
-    @Override
-    public void write(JsonWriter out, DiaryEntry entry) throws IOException {
-        out.beginObject();
-        out.name("title").value(entry.getTitle());
+  /**
+  * Serialises a {@link DiaryEntry} into JSON.
+  * This method writes out each field of a DiaryEntry into a JSON object
+  * 
+  * @param out the JSON writer
+  * @param entry the diary entry to serialise
+  * @throws IOException if writing to the output fails
+  */
+  @Override
+  public void write(JsonWriter out, DiaryEntry entry) throws IOException {
+    out.beginObject();
+    out.name("title").value(entry.getTitle());
 
-        // Write Author as a JSON object
-        out.name("author");
-        out.beginObject();
-        out.name("name").value(entry.getAuthor().getName());
-        out.endObject();
+    // Write Author as a JSON object
+    out.name("author");
+    out.beginObject();
+    out.name("name").value(entry.getAuthor().getName());
+    out.endObject();
 
-        out.name("content").value(entry.getContent());
-        out.name("date").value(entry.getDate().format(formatter));
-        out.endObject();
-    }
+    out.name("content").value(entry.getContent());
+    out.name("date").value(entry.getDate().format(formatter));
+    out.endObject();
+  }
 
-    /**
-     * Deserialises a {@link DiaryEntry} from JSON input.
-     * 
-     * Reconstructs a DiaryEntry by reading fields back from JSON text
-     * 
-     * @param in the JSON reader used to read fields
-     * @return the reconstructed {@code DiaryEntry} instance 
-     * @throws IOException if reading fails or JSON is malformed 
-     */
-    @Override
-    public DiaryEntry read(JsonReader in) throws IOException {
-        String title = null;
-        Author author = null;
-        String content = null;
-        LocalDateTime date = null;
+  /**
+  * Deserialises a {@link DiaryEntry} from JSON input.
+  * Reconstructs a DiaryEntry by reading fields back from JSON text
+  * 
+  * @param in the JSON reader used to read fields
+  * @return the reconstructed {@code DiaryEntry} instance 
+  * @throws IOException if reading fails or JSON is malformed 
+  */
+  @Override
+  public DiaryEntry read(JsonReader in) throws IOException {
+    String title = null;
+    Author author = null;
+    String content = null;
+    LocalDateTime date = null;
 
-        in.beginObject();
-        while (in.hasNext()) {
-            String name = in.nextName();
-            switch (name) {
-                case "title":
-                    title = in.nextString();
-                    break;
+    in.beginObject();
+    while (in.hasNext()) {
+      String name = in.nextName();
+      switch (name) {
+        case "title":
+          title = in.nextString();
+          break;
 
-                case "author":
-                    Author authorObj = new Author(name);
+        case "author":
+          Author authorObj = new Author(name);
 
-                    in.beginObject(); // start reading the author object
-                    while (in.hasNext()) {
-                        switch (in.nextName()) {
-                            case "name":
-                                authorObj.setName(in.nextString());
-                                break;
+          in.beginObject(); // start reading the author object
+          while (in.hasNext()) {
+            switch (in.nextName()) {
+              case "name":
+                authorObj.setName(in.nextString());
+                break;
                                 
-                            default:
-                                in.skipValue(); // skip unknown fields
-                        }
-                    }
-                    in.endObject(); // finish reading author object
-
-                    author = authorObj;
-                    break;
-
-                case "content":
-                    content = in.nextString();
-                    break;
-
-                case "date":
-                    date = LocalDateTime.parse(in.nextString(), formatter);
-                    break;
-                    
-                default:
-                    in.skipValue();
-                    break;
+              default:
+                in.skipValue(); // skip unknown fields
             }
-        }
-        in.endObject();
+          }
+          in.endObject(); // finish reading author object
 
-        return new DiaryEntry(title, author, content, date);
+          author = authorObj;
+          break;
+
+        case "content":
+          content = in.nextString();
+          break;
+
+        case "date":
+          date = LocalDateTime.parse(in.nextString(), formatter);
+          break;
+                    
+        default:
+          in.skipValue();
+          break;
+      }
     }
+    in.endObject();
+
+    return new DiaryEntry(title, author, content, date);
+  }
 }

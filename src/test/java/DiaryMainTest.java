@@ -1,3 +1,4 @@
+/** Javadoc. */
 public class DiaryMainTest {
     
 }
