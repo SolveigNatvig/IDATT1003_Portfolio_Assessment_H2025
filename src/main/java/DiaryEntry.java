@@ -2,47 +2,69 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Entity class for diary entry
- * Represents an entry, consisting of a title, author, content and creation date
+ * Entity class representing a single diary entry in the application.
  * 
- * <br><br>
- * An {@code DiaryEntry} object stores a title, author, content and a date of creation. 
- * The {@code DiaryEntry} is created with a timestamp representing when the entry was written.
+ * <p><b>Role and Responsibility</b></p>
  * 
- * <br><br>
+ * <p>The {@code DiaryEntry} class stores all information related to a single diary entry.
+ * It represents the core content that users create and interact with in the diary application.
+ * Each entry has a title and content, created by an author at a specific point in time, with the
+ * ability to later edit the title and content.</p>
  * 
- * <b>Responsibility:</b><br>
- * This class holds information about the diary entry. 
- * It is used to get the title, author, content and date. And to set (change) the title and content.
+ * <b>Information Stored and Data Type Justification</b>
+ * <uL>
+ * <li><b>Title ({@code title}):</b> The title of the diary entry, stored as a {@code String}. 
+ * The data type string provides flexibility in lenght.</li>
+ * <li><b>Author ({@code author}):</b> The author who has written the entry, 
+ * stored as an {@code Author} object. Using a reference to an {@code Author} object 
+ * (rather than just a name string) enables linking entries to author statistics 
+ * and supports future extensions. It also maintains the relationship 
+ * between entries and their creators.</li>
+ * <li><b>Content ({@code content}):</b> The content of the diary entry, 
+ * stored as a {@code String}. As diary content is text in a variaty of lengths, 
+ * and a {@code String} can handle anything from a single sentence to lengthy entries.</li>
+ * <li><b>Date ({@code date}):</b> The timestamp of when the diary entry was created, 
+ * stored as {@code LocalDateTime}. LocalDateTime provides a precice date and time.</li>
+ * </ul>
  * 
- * <br><br>
+ * <b>Mutability Assessment</b>
  * 
- * <b>Information:</b><br>
- * This class stores:
- * - {@code title}: The title of the diary entry, stored as a {@code String}
- * - {@code author}: The author who has written the entry, stored as a {@code Author}
- * - {@code content}: The content of the diary entry, stored as a {@code String}
- * - {@code date}: The timestamp of when the diary entry was created, stored as LocalDateTime
+ * <p>Both title, content, author and date is set at creation. 
+ * The title and content is typed in by the user, 
+ * while the author is set to the author connected to the user logged in at that moment. 
+ * The time is set to the time of creation.
+ * The title and content can later be changed, but the author and date are 
+ * immutable and final.</p>
  * 
- * <b>Methods:</b> The DiaryEntry class contains these following methods
- * DiaryEntry(String title, Author author, String content)
- * DiaryEntry(String title, Author author, String content, LocalDateTime date)
- * getTitle()
- * getAuthor()
- * getContent()
- * getDate()
- * setTitle()
- * setContent()
- * toString()
+ * <b>Invalid Data Handling Strategy</b>
+ * 
+ * <p>This class follows a permissive/accepting strategy for invalid data:</p>
+ * 
+ * <ul>
+ * <li><b>Null or blank values:</b> The constructors accept any values for 
+ * title, author, content, and date without validation. This allows flexibility
+ * for JSON deserialisation where fields may be reconstructed incrementally.
+ * The calling code (e.g., {@link DiaryUserInterface}) is responsible for
+ * validating user input before creating entries.</li>
+ * <li><b>Null author:</b> If a null author is passed, subsequent calls
+ * to {@code getAuthor().getName()} will throw a {@code NullPointerException}.
+ * The design assumes the calling code provides valid author references.</li>
+ * <li><b>Null date:</b> The second constructor allows a null date, which
+ * would cause issues in {@code toString()} and date-based searches. This is
+ * accepted to support flexible deserialisation with JSON.</li>
+ * </ul>
  */
 public class DiaryEntry {
   private String title;
-  private Author author;
+  private final Author author;
   private String content;
   private final LocalDateTime date;
 
   /**
-  * Creating a new diary entry using the current system time as the creation date.
+  * Creates a new diary entry using the current date and time as the creation date.
+  * 
+  * <p>This constructor is used when creating new entries through the user interface,
+  * automatically setting the date and time of creation.</p>
   * 
   * @param title the title of the diary entry
   * @param author the author who wrote the entry
@@ -58,9 +80,8 @@ public class DiaryEntry {
   /**
   * Creates a new diary entry with a specified date.
   * 
-  * <p>This constructor can be useful when loading diary entries from storage
-  * where the original creation date must be preserved.
-  * </p>
+  * <p>This constructor is used when loading diary entries from storage (in JSON)
+  * where the original creation date must be preserved.</p>
   *
   * @param title   the title of the diary entry
   * @param author  the author who wrote the entry
@@ -93,7 +114,7 @@ public class DiaryEntry {
   }
 
   /**
-  * Returns the content of the diary entry.
+  * Returns the content of this diary entry.
   * 
   * @return the content
   */
@@ -102,9 +123,9 @@ public class DiaryEntry {
   }
 
   /**
-  * Returns the date the diary entry was written.
+  * Returns the date and time the diary entry was written (created).
   * 
-  * @return the publish date
+  * @return the publish date and time
   */
   public LocalDateTime getDate() {
     return this.date;
@@ -112,6 +133,9 @@ public class DiaryEntry {
 
   /**
   * Updates the title of this diary entry.
+  * 
+  * <p>No validation is performed. The code calling this method should ensure the new title
+  * is not blank before calling this method.</p>
   * 
   * @param newTitle the new title to set
   */
@@ -122,6 +146,9 @@ public class DiaryEntry {
   /**
   * Updates the content of the diary entry.
   * 
+  * <p>No validation is performed. The code calling this method should ensure the new content
+  * is not blank before calling this method.</p>
+  * 
   * @param newContent the new content to set
   */
   public void setContent(String newContent) {
@@ -129,10 +156,12 @@ public class DiaryEntry {
   }
 
   /**
-  * Updates the {@code lastEdited} timestamp to the current system time.
+  * Returns a formatted string representation of the diary entry.
   * 
-  * <p>This method should be called whenever the entry is modified, to keep
-  * track of revisions over time. </p>
+  * <p>The format includes the title, date (dd.MM.yyyy HH:mm),
+  * content, and author name, suitable for display in the console interface.</p>
+  * 
+  * @return a formatted string containing all details of the diary entry
   */
   @Override 
   public String toString() {

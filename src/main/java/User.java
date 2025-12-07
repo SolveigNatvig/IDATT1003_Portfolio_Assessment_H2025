@@ -1,35 +1,59 @@
 /**
- * Entity class for User. <br>
- * Represents the user of the application
+ * Entity class representing the user in the application.
  * 
- * <br><br>
- * An {@code User} object stores an {@code Author} object, a username and a password. 
- * The Author object and the username is set to be final, 
- * and thus it will not be possible to change these after creation. 
- * The password however is possible to change, 
- * but the user will have to remember the previous password because the user have to be logged in 
- * in order to change their password.
+ * <p><b>Role and Responsibility</b></p>
  * 
- * <b>Responsibility:</b><br>
- * This class holds information about a user, 
- * which is used to identify which author writes a new entry once logged in. 
+ * <p>The {@code User} class represents a registered user who can log in to the diary
+ * application, create diary entries, and manage their own content. It links an
+ * {@link Author} identity (for diary entries) with authentication credentials
+ * (username and password).</p>
  * 
- * <br><br>
+ * <b>Key responsibilities include:</b>
+ * <ul>
+ * <li>Storing user identity information (author, username)</li>
+ * <li>Managing authentication credentials (hashed password)</li>
+ * <li>Providing password verification for login</li>
+ * <li>Enabling password changes for logged-in users</li>
+ * </ul>
  * 
- * <b>Information:</b><br>
- * This class stores: <br>
- * - {@code author}: the author belonging to the user, stored as an {@code Author} object.
- * - {@code username}: the username belonging to the user, stored as a {@code String}
- * - {@code password}: the hashed password used to log in, stored as a {@code String}
+ * <b>Information Stored and Data Type Justification</b>
+ * <ul>
+ * <li><b>Author ({@code author}):</b> The author linked to the user 
+ * profile is stored as an {@link Author} because this makes it 
+ * possible to create a link between diary entries and their creators. 
+ * It also allowes for tracking of entry count per author. </li>
+ * <li><b>Username ({@code username}):</b> Usernames are textual identifiers. 
+ * {@code String} is the natural choice for variable-length text that needs to support 
+ * comparison operations.</li>
+ * <li><b>Password ({@code password}):</b> Storing the hashed password as a string. 
+ * Using {@code String} makes it easy to compare passwords. 
+ * The acctual password is never stored in clean text.</li>
+ * </ul>
  * 
- * <b>Methods:</b> The User class contains these following methods
- * User(Author author, String username, String hashedPassword)
- * getName()
- * getNumberOfEntries()
- * getAuthor()
- * getUsername()
- * setNewPassword(String newPassword)
- * passwordMatches(String hashedInput)
+ * <b>Mutability Assessment</b>
+ * 
+ * <p>The author, username and password is set at creation by the user of the 
+ * application. The author and username are final, and will not be changed. 
+ * The password however can be changed later.</p>
+ * 
+ * <b>Invalid Data Handling Strategy</b>
+ * 
+ * <p>This class uses a fail-fast exception strategy for critical data:</p>
+ * <ul>
+ * <li><b>Blank username:</b> The constructor throws
+ * {@code IllegalArgumentException} with the message "Every user needs to have
+ * a username". Usernames are essential for authentication and must not be empty.</li>
+ * <li><b>Blank password:</b> The constructor throws
+ * {@code IllegalArgumentException} with the message "A password is required to
+ * protect your profile". Passwords are essential for security.</li>
+ * <li><b>Null author:</b> No explicit validation is performed for null authors.
+ * If null is passed, subsequent operations like {@code getName()} will throw
+ * {@code NullPointerException}. The calling code ({@link UserRegister}) ensures
+ * valid authors are provided.</li>
+ * <li><b>Password changes:</b> The {@code setNewPassword} method accepts any
+ * string without validation. The calling code should ensure the new password is
+ * properly hashed before setting.</li>
+ * </ul>
  */
 public class User {
   private final Author author;
@@ -94,7 +118,7 @@ public class User {
   public String getUsername() {
     return this.username;
   }
-
+  
   /**
   * Changes the pasword.
   * 
@@ -108,7 +132,8 @@ public class User {
   * Verifies if the password matches the hashed input. 
   * This method is used by to verify that the user has written the correct password.
   * 
-  * @return {@code true} if the two passwors metches. Otherwise it returns {@code false}
+  * @param hashedInput a pre hashed input to compare to the hashed password
+  * @return {@code true} if the two passwors metches. Otherwise it returns {@code false} 
   */
   public boolean passwordMatches(String hashedInput) {
     return this.password.equals(hashedInput);

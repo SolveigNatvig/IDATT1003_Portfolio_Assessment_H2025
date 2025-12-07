@@ -14,57 +14,63 @@ import java.util.Base64;
 /**
  * Registry class for managing users in the diary application. 
  * 
- * <br><br>
+ * <p><b>Role and Responsibility</b></p>
  * 
- * <b>Responsibility</b>
- * <br>
- * This class is responsible for managing a collection of {@link User} objects.
- * It handles user registration, authentication (login), looking upp users, 
- * and persistence (saving/lading users to/from JSON files). 
- * The class also provides password hashing functionality to ensure passwords are stored securely.
+ * <p>The {@code UserRegister} class is responsible for managing a collection of 
+ * {@link User} objects while they are in the application.</p>
  * 
- * <br><br>
- * UserRegister acts as the single point of access for all user-related operations within the 
- * system.
+ * <b>Key Responsibilities:</b>
+ * <ul>
+ * <li><b>User registration:</b> Creating new users with password hashing</li>
+ * <li><b>Authentication:</b> Verifying login credentials</li>
+ * <li><b>User lookup:</b> Finding users by username</li>
+ * <li><b>Persistence:</b> Saving and loading users to/from JSON files</li>
+ * <li><b>Password security:</b> Providing hashing for passwords</li>
+ * <li><b>Author statistics:</b> Displaying entry counts per author</li>
+ * </ul>
  * 
- * <br><br>
+ * <b>Information Stored and Data Type Justification</b>
  * 
- * <b>Information stored and datatype choices:</b>
- * <br>
- * - {@code userList} ({@code ArrayList<User>}): A dynamic list for all registrerd users. 
- * ArrayList was chosen because: <br>
- *    - The number of users is unknown when starting the program, 
- * and will grow as new users is added <br>
- *    - Users needs to be iterated through for login verification and looking upp users <br>
- *    - ArrayList provides access by index and efficient iteration with streams. <br>
- *    - Easy serialisation/deserialisation with the Gson libary <br>
- * - {@code gson} ({@code Gson}): A Gson instance for JSON serialisation. 
- * Gson was chosen because: <br>
- *      - It handles complex object serialisation authomatically. <br>
- *      - It is a widely used and well documented libary for JSON in java. <br>
- *      - Supports generic types like ArrayList&lt;User&gt;
+ * <p>This class stores:</p>
  * 
- * <br><br>
+ * <ul>
+ * <li><b>List of Users ({@code userList}):</b> A list of users. 
+ * {@code ArrayList} was chosen because:
+ * <ul>
+ * <li>The number of users is unknown at startup and grows as users register</li>
+ * <li>Users need to be iterated through for login verification and lookups</li>
+ * <li>Stream operations provide clean, functional-style querying</li>
+ * <li>Easy serialisation/deserialisation with Gson library</li>
+ * </ul>
+ * </li>
+ * <li><b>gson ({@code Gson}):</b> A standard Gson instance is used because:
+ * <ul>
+ * <li>User objects don't contain {@code LocalDateTime} (unlike DiaryEntry),
+ * so no custom adapter is needed</li>
+ * <li>Gson handles Author and String fields automatically</li>
+ * </ul>
+ * </li>
+ * </ul>
+ * <b>Mutability Assessment</b>
  * 
- * <b>Mutability assessment:</b> what should be set at creation vs changable <br>
- * (Table)
+ * <p>The userList and the gson is set by the constructor. 
+ * Both are final and wont be changed later. Only the content of the userList will change. </p>
  * 
- * <br><br>
+ * <b>Invalid Data Handling Strategy</b>
  * 
- * <b>How does the class respond to invalid data?</b>
- * <br>
- * (INFO)
- *  
+ * <p>This class uses a combination of graceful degradation,
+ * exception propagation, and boolean return values</p>
  */
 public class UserRegister {
-  private ArrayList<User> userList;
-  private Gson gson;
+  private final ArrayList<User> userList;
+  private final Gson gson;
     
   /**
-  * Creates a new empty UserRegister. Initalises an empty user list ({@code ArrayList}) 
-  * and a Gson instance for JSON operations. 
-  * <br>
-  * Users can be added via {@code addNewUser()} or loaded from file via {@code readFromJSON()}
+  * Creates a new empty UserRegister. 
+  * 
+  * <p>Initalises an empty user list ({@code ArrayList}) 
+  * and a standard Gson instance for JSON operations. 
+  * Users can be added via {@code addNewUser()} or loaded from file via {@code readFromJSON()}</p> 
   */
   public UserRegister() {
     this.userList = new ArrayList<>();
@@ -72,10 +78,11 @@ public class UserRegister {
   }
 
   /**
-  * Methods which hashes a string using SHA-256 algorithm and returns it as a Base64-encoding 
-  *   string. 
-  * This method is used to hash passwords so that it can be stored securely. The acctual password 
-  * cannot be recovered from the hash.
+  * Methods which hashes a string using SHA-256 algorithm and 
+  * returns it as a Base64-encoding string. 
+  * 
+  * <p>This method is used to hash passwords so that it can be stored securely. 
+  * The acctual password cannot be recovered from the hash.</p>
   * 
   * @param text the string to be hashed (in our case a password)
   * @return the hashed text as a Base64-encoded string
@@ -92,17 +99,15 @@ public class UserRegister {
   }
 
   /**
-  * Method for creating and registrating a new user in the system.
-  * Creates an Author object with a combined name-username idetifyer, 
-  * hashes the password for secure storage, and adds the new User to the register. 
-  * a new {@link User} object, containing an {@link Author} object, a username and 
-  * a hashed password. After the User object is created it is added to the {@code userList}.
+  * Creating and registrating a new user in the system.
+  * 
+  * <p>Creates an {@link Author} object with a combined name-username idetifyer, 
+  * hashes the password for secure storage, creates a new user and adds it to the register. 
   * 
   * @param name the display name of the user
   * @param username the distinct username for login
   * @param password the password in plain text (this will be hashed before storage)
-  * @throws IllegalArgumentException if username or password is blank 
-  *     (thrown by User constructor)
+  * @throws IllegalArgumentException if username or password is blank (thrown by User constructor)
   */
   public void addNewUser(String name, String username, String password) {
     Author author = new Author(String.format("%s_%s", name, username));
@@ -112,8 +117,9 @@ public class UserRegister {
   }
 
   /**
-  * Method to check if the username belongs to an existing user within the system. 
-  * The comparison is case-insensitive
+  * Checks if the username belongs to an existing user within the system. 
+  * 
+  * <p>The comparison is case-insensitive</p>
   * 
   * @param username The username to check
   * @return {@code true} (the user exists) or {@code false} (otherwise)
@@ -123,17 +129,12 @@ public class UserRegister {
   }
 
   /**
-  * Method for authenticating a user by verifying their username and password. 
-  * The password is hashed and compared against the stored hash.
-  * Username comparison is case insensitive. 
+  * Authenticates a user by verifying their username and password. 
   * 
-  * <br><br>
+  * <p>The password is hashed and compared against the stored hash.
+  * Username comparison is case insensitive.</p>
   * 
-  * <b>Error handeling:</b>
-  * Returns {@code false} for any invalid credentials rather than throwing exeptions, 
-  * allowing the UI to display appropriate messages.
-  * 
-  * @param username The username used to atempt to log in
+  * @param username The username to authenticate
   * @param password The password in plain text to verify
   * @return true (if the username and the password matches) or false (otherwise)
   */
@@ -145,11 +146,9 @@ public class UserRegister {
   }
 
   /**
-  * Method to retrieve the user by the username (which is distinct). 
-  * The comparison is case insensitive 
+  * Retrieving the user by the username (which is distinct). 
   * 
-  * <b>Error handeling:</b>
-  * Returns {@code null} if no user is found.
+  * <p>The comparison is case insensitive </p>
   * 
   * @param username The username to search for
   * @return the user if the user exits, else returns {@code null}
@@ -159,27 +158,22 @@ public class UserRegister {
     .equalsIgnoreCase(username)).findFirst().orElse(null);
   }
 
-  /** NEW JAVADOC
-  * Method for printing the author statistics.
-  * Displays each author's name and the number of diary entries they have written.
-  * <b>Output formate:</b>
-  * AuthorName : NumberOfEntries
+  /**
+  * Printing the author statistics to console.
+  * 
+  * <p>Displays each author's name and the number of diary entries they have written.</p>  
   */
   public void printAuthorStatistics() {
-    this.userList.forEach(user -> System.out.printf(String.format("%s : %d", user.getAuthor()
+    this.userList.forEach(user -> System.out.printf(String.format("%s : %d\n", user.getAuthor()
         .getName(), user.getAuthor().getNumberOfEntries())));
   }
 
   /**
-  * Reads users fron the JSON file "users.json" into the user list.
-  * If the file does not exist, no action is taken to allow a fresh start.
-  * If the file is exists but is empty or invalid an error message is printed, 
-  * but the program continues.
+  * Reads users from the JSON file "users.json" into the user list.
   * 
-  * <br><br>
-  * <b>Error handeling:</b>
-  * Uses graceful dgradiation if the reading fails, an error message is printed to 
-  * consolle but the application continues with an empty or partially loaded user list.
+  * <p>If the file does not exist, no action is taken to allow a fresh start.
+  * If the file is exists but is empty or invalid an error message is printed, 
+  * but the program continues.</p>
   */
   public void readFromJson() {
     String filepath = "users.json";
@@ -201,21 +195,21 @@ public class UserRegister {
   }
 
   /**
-  * Method to write all users to the JSON file "users.json".
-  * Overwrites any existing file content.
+  * Writes all users to the JSON file "users.json".
   * 
-  * <br><br> 
+  * <p>Overwrites any existing file content. <br><br>
+  * 
   * <b>Error handeling:</b> 
   * <br>
   * Uses graceful degradiation if writing fails an error message is printed to console, 
-  * but the application continue running 
+  * but the application continue running </p>
   */
   public void writeToJson() {
     String filepath = "users.json";
 
     try (FileWriter writer = new FileWriter(filepath)) {
       gson.toJson(this.userList, writer);
-      System.out.println("\nUsers saved successfully!");
+      //System.out.println("\nUsers saved successfully!");
     } catch (IOException e) {
       System.out.println("Could not save users.json: " + e.getMessage());
     }
