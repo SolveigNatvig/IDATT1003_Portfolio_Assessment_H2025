@@ -1,72 +1,181 @@
 
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import edu.ntnu.idi.bidata.Author;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /** 
- * Using Arrange-Act-Assert structure
+ * The test class for the Author class
  */
-class AuthorTest{
-    
-    // POSITIVE TESTS
+class AuthorTest {
 
-    // TEST THE CONSTRUCTOR!!!
+  // POSITIVE TESTS
 
-    @ Test
-    public void getName_shouldReturnName_setByTheConstructor() {
-        
-        // Arrange
-        String expectedName = "Jane";
+  @Test
+  public void constructor_shouldInitializeNameCorrectly_whenGivenValidName() {
 
-        // Act 
-        Author author = new Author(expectedName);
-        
-        // Assert
-        assertEquals(expectedName, author.getName());
-    }
+    // Arrange
+    String expectedName = "Jane";
 
-    @ Test
-    public void getNumberOfEntries_shouldReturnNumberOfEntries() {
+    // Act
+    Author author = new Author(expectedName);
 
-        // Arrange
-        int expectedNumberOfEntries = 4;
+    // Assert
+    assertEquals(expectedName, author.getName());
+  }
 
-        // Act
-        Author author = new Author("Jane");
-        author.modifyNumberOfEntries(4);
+  @Test
+  public void constructor_shouldInitializeEntryCountToZero_whenCreated() {
 
-        // Assert
-        assertEquals(expectedNumberOfEntries, author.getNumberOfEntries());
-    }
+    // Arrange
+    int expectedCount = 0;
 
-    @ Test
-    public void setName_shouldChangeAuthorsNameToInputString() {
+    // Act
+    Author author = new Author("Jane");
 
-        // Arrange
-        String changedName = "Jonh";
+    // Assert
+    assertEquals(expectedCount, author.getNumberOfEntries());
+  }
 
-        // Act
-        Author author = new Author("Jane");
-        author.setName(changedName);
+  @Test
+  public void getName_shouldReturnName_setByConstructor() {
 
-        // Assert
-        assertEquals(changedName, author.getName());
-    }
+    // Arrange
+    String expectedName = "Jane";
 
-    @ Test
-    public void modifyNumberOfEntries() {
+    // Act
+    Author author = new Author(expectedName);
 
-        // Arrange
-        int change = 2;
+    // Assert
+    assertEquals(expectedName, author.getName());
+  }
 
-        // Act 
-        Author author = new Author("Jane");
-        author.modifyNumberOfEntries(change);
+  @Test
+  public void getNumberOfEntries_shouldReturnUpdatedCount_afterModification() {
 
-        // Assert
-        assertEquals(change, author.getNumberOfEntries());
-    }
+    // Arrange
+    int expectedNumberOfEntries = 4;
 
-    // NEGATIVE TESTS
+    // Act
+    Author author = new Author("Jane");
+    author.modifyNumberOfEntries(4);
+
+    // Assert
+    assertEquals(expectedNumberOfEntries, author.getNumberOfEntries());
+  }
+
+  @Test
+  public void setName_shouldUpdateName_whenGivenNewName() {
+
+    // Arrange
+    String changedName = "John";
+
+    // Act
+    Author author = new Author("Jane");
+    author.setName(changedName);
+
+    // Assert
+    assertEquals(changedName, author.getName());
+  }
+
+  @Test
+  public void modifyNumberOfEntries_shouldIncreaseCount_whenGivenPositiveNumber() {
+
+    // Arrange
+    int change = 2;
+
+    // Act
+    Author author = new Author("Jane");
+    author.modifyNumberOfEntries(change);
+
+    // Assert
+    assertEquals(change, author.getNumberOfEntries());
+  }
 
 
+  // NEGATIVE TESTS
+
+  @Test
+  public void constructor_shouldAcceptEmptyString_whenGivenEmptyName() {
+
+    // Arrange
+    String emptyName = "";
+
+    // Act
+    Author author = new Author(emptyName);
+
+    // Assert
+    assertEquals(emptyName, author.getName());
+  }
+
+  @Test
+  public void constructor_shouldAcceptNull_whenGivenNullName() {
+
+    // Arrange
+    String nullName = null;
+
+    // Act
+    Author author = new Author(nullName);
+
+    // Assert
+    assertNull(author.getName());
+  }
+
+  @Test
+  public void modifyNumberOfEntries_shouldDecreaseCount_whenGivenNegativeNumber() {
+
+    // Arrange
+    Author author = new Author("Jane");
+    author.modifyNumberOfEntries(5);
+    int expectedCount = 3;
+
+    // Act
+    author.modifyNumberOfEntries(-2);
+
+    // Assert
+    assertEquals(expectedCount, author.getNumberOfEntries());
+  }
+
+  @Test
+  public void modifyNumberOfEntries_shouldAllowNegativeTotal_whenDecrementExceedsCount() {
+
+    // Arrange
+    Author author = new Author("Jane");
+    int expectedNegativeCount = -3;
+
+    // Act
+    author.modifyNumberOfEntries(-3);
+
+    // Assert
+    assertEquals(expectedNegativeCount, author.getNumberOfEntries());
+  }
+
+  @Test
+  public void setName_shouldAcceptNull_whenGivenNullValue() {
+
+    // Arrange
+    Author author = new Author("Jane");
+
+    // Act
+    author.setName(null);
+
+    // Assert
+    assertNull(author.getName());
+  }
+
+  @Test
+  public void setName_shouldAcceptEmptyString_whenGivenEmptyValue() {
+
+    // Arrange
+    Author author = new Author("Jane");
+    String emptyName = "";
+
+    // Act
+    author.setName(emptyName);
+
+    // Assert
+    assertEquals(emptyName, author.getName());
+  }
 }

@@ -1,9 +1,14 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import edu.ntnu.idi.bidata.Author;
+import edu.ntnu.idi.bidata.User;
 import org.junit.jupiter.api.Test;
 
-/** Javadoc. */
+/** 
+ * The thest class for the User class 
+ */
 public class UserTest {
 
   // POSITIVE TESTS
@@ -102,7 +107,7 @@ public class UserTest {
     Author author = new Author("Jane");
     String storedPassword = "password";
     User user = new User(author, "Username", storedPassword);
-    String inputPassword = "passord";
+    String inputPassword = "password";
 
     // Act
     Boolean result = user.passwordMatches(inputPassword);
@@ -112,5 +117,29 @@ public class UserTest {
   }
 
 
-  // NEGATIVE TESTS
+   // NEGATIVE TESTS
+
+   @ Test
+   public void constructor_shouldThrowIllegalArgument_whenUsernameIsBlank() {
+    // Arrange
+    String name = "";
+
+    // Act
+    Author author = new Author(name);
+
+    // Assert
+    assertThrows(IllegalArgumentException.class, () ->
+        new User(author, "username", "   "));
+   }
+
+
+   @ Test
+   public void constructor_shouldThrowIllegalArgument_whenPasswordIsBlank() {
+    // Arrange
+    String password = "";
+
+    // Act + Assert
+    assertThrows(IllegalArgumentException.class, () ->
+        new User(new Author("Jane"), "username", password));
+   }
 }

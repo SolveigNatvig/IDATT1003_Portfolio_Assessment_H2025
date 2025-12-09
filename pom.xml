@@ -5,14 +5,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.jsontest</groupId>
-  <artifactId>json-file-manager</artifactId>
+<groupId>edu.ntnu.idi.bidata</groupId>
+<artifactId>IDATA1003-Diary-Application</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
-    <!-- Beholder Java 11 som du opprinnelig hadde -->
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <!-- Java 21 -->
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
 
     <!-- Global encoding (ikke i plugin-konfig) -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,7 +56,7 @@
         <version>3.1.0</version>
         <configuration>
           <!-- Bruk fullstendig kvalifisert navn hvis klassen ligger i en package -->
-          <mainClass>DiaryMain</mainClass>
+          <mainClass>edu.ntnu.idi.bidata.DiaryMain</mainClass>
         </configuration>
       </plugin>
 
@@ -68,7 +68,7 @@
           <configLocation>google_checks2.xml</configLocation>
           <consoleOutput>true</consoleOutput>
           <failsOnError>true</failsOnError>
-          <!-- Ikke bruk 'encoding' eller 'checkstyleVersion' her -->
+          
         </configuration>
         <dependencies>
           <dependency>
@@ -87,7 +87,7 @@
         </executions>
       </plugin>
 
-      <!-- Tester -->
+      <!-- Tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-surefire-plugin</artifactId>
