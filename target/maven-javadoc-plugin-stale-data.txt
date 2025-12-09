@@ -1,7 +1,7 @@
 -J-Duser.language=
 -J-Duser.country=
 @options
-@argfile
+@packages
 --no-fonts
 -classpath
 '/Users/solveig/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar'
@@ -9,7 +9,7 @@
 'UTF-8'
 -protected
 -source
-'11'
+'21'
 -sourcepath
 '/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java'
 -author
@@ -22,55 +22,25 @@
 -docencoding
 'UTF-8'
 -doctitle
-'json-file-manager 1.0-SNAPSHOT API'
--linkoffline
-'https://docs.oracle.com/en/java/javase/11/docs/api' '/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/javadoc-bundle-options'
+'IDATA1003-Diary-Application 1.0-SNAPSHOT API'
 -use
 -version
 -windowtitle
-'json-file-manager 1.0-SNAPSHOT API'
-'/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryUI.java'
-'/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryEntryRegister.java'
-'/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryMain.java'
-'/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryEntryTypeAdapter.java'
-'/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/UserRegister.java'
-'/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/User.java'
-'/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/Author.java'
-'/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryEntry.java'
+'IDATA1003-Diary-Application 1.0-SNAPSHOT API'
+edu.ntnu.idi.bidata
 /Users/solveig/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar = 1673019840000
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryUI.java = 1764794162256
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryEntryRegister.java = 1764794301853
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/.DS_Store = 1764786825502
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryMain.java = 1764794810454
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryEntryTypeAdapter.java = 1764786498711
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/UserRegister.java = 1764830860583
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/User.java = 1764789336651
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/Author.java = 1764795499970
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/DiaryEntry.java = 1764789303639
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java = 1764786820486
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/tag-search-index.js = 1764830886245
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/overview-tree.html = 1764830886042
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/DiaryUI.html = 1764830885578
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/DiaryEntryRegister.html = 1764830885443
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/module-search-index.js = 1764830886233
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/index.html = 1764830886376
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/package-search-index.js = 1764830886236
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/package-use.html = 1764830886033
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/DiaryEntryTypeAdapter.html = 1764830885525
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/DiaryMain.html = 1764830885557
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/index-all.html = 1764830886366
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/allpackages-index.html = 1764830886229
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/User.html = 1764830885631
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/UserRegister.html = 1764830885742
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/Author.html = 1764830885190
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/member-search-index.js = 1764830886240
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/help-doc.html = 1764830886413
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/javadoc.sh = 1764830793080
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/package-summary.html = 1764830885776
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/package-tree.html = 1764830885789
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/DiaryEntry.html = 1764830885270
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/element-list = 1764830885745
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/search.html = 1764830886371
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/allclasses-index.html = 1764830886187
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/type-search-index.js = 1764830886238
-/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/AuthorRegister.html = 1764786561694
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java/.DS_Store = 1765200437658
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/src/main/java = 1765200408317
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/tag-search-index.js = 1765283251506
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/overview-tree.html = 1765283251278
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/module-search-index.js = 1765283251476
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/index.html = 1765283251564
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/package-search-index.js = 1765283251477
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/index-all.html = 1765283251555
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/allpackages-index.html = 1765283251475
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/member-search-index.js = 1765283251505
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/help-doc.html = 1765283251571
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/element-list = 1765283250572
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/search.html = 1765283251562
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/allclasses-index.html = 1765283251472
+/Users/solveig/Library/CloudStorage/Dropbox/NTNU/Dataingeniør/IDATT1003 Programmering 1/mappe_2025_solveignatvig/target/reports/apidocs/type-search-index.js = 1765283251504

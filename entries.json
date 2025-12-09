@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "title": "First snowfall",
+    "author": {
+      "name": "Nora Aas_noraa"
+    },
+    "content": "Today was a very calm Sunday. I woke up late, made some coffee, and sat by the window to watch the snow finally start falling. There’s something soothing about the first snow, like the whole city is taking a deep breath at the same time. I spent the rest of the day drawing and drinking far too much cocoa. Pretty perfect, really.",
+    "date": "2025-12-07T21:41:33.936296"
+  },
+  {
+    "title": "December Work Stress",
+    "author": {
+      "name": "Emil Vatne_emilvtn"
+    },
+    "content": "Work was chaotic today. It feels like every project suddenly has to be finished before Christmas. I tried not to stress, but it’s hard when Slack is pinging every few minutes. Went for a run afterwards to clear my head. Helped a bit. I need to get better at logging off on time.",
+    "date": "2025-12-04T21:42:08.646785"
+  },
+  {
+    "title": "A Quiet Morning",
+    "author": {
+      "name": "Amina Dao_aminad"
+    },
+    "content": "I had a lovely morning today. Took the time to eat breakfast, which I often skip. I’m planning to start a new knitting project after work – a green wool jumper. I’m a bit nervous it might turn out uneven again, but practice makes perfect, right?",
+    "date": "2025-12-02T21:42:58.86018"
+  },
+  {
+    "title": "Surprisingly Good Evening",
+    "author": {
+      "name": "Leo Johansen_leojo"
+    },
+    "content": "Went to a concert with friends tonight. It was loud, crowded, and surprisingly fun. Not really my usual scene, but I ended up enjoying it. I think I should say yes to things more often, even when I’d rather stay home. It felt nice to be part of something.",
+    "date": "2025-11-29T21:43:38.624683"
+  },
+  {
+    "title": "A Heavy Day",
+    "author": {
+      "name": "Silje Løkke_siljejournal"
+    },
+    "content": "I had a bit of a tough day today. Not really sure why. Everything just felt slow. Took a long walk in the woods, and being outside in the fresh air helped a little. I think I’ll spend the evening watching a series with some tea, without feeling guilty.",
+    "date": "2025-12-01T21:44:18.208577"
+  },
+  {
+    "title": "Submission and Relief",
+    "author": {
+      "name": "Markus Engen_markuswrites"
+    },
+    "content": "Finally handed in my term paper! Feeling an enormous sense of relief right now. I celebrated by buying an overly expensive cinnamon bun and watching people pass by in the square. Felt like the main character in a little film. Now: sleep.",
+    "date": "2025-12-06T21:45:00.671873"
+  }
+]
